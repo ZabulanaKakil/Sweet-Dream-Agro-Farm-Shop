@@ -613,7 +613,7 @@
     }
     function stockHtml(p) {
       if (p.stock === null) return '';
-      if (p.stock <= 0) return '<span class="stock out">Out of stock</span>';
+      if (p.stock <= 0) return '<span class="stock out">Limited Stock</span>';
       return '<span class="stock">' + p.stock + ' left</span>';
     }
     function isOut(p) { return p.stock !== null && p.stock <= 0; }
@@ -652,7 +652,7 @@
           '<div class="price-row">' + priceHtml(p) + '</div>' +
           '<div class="meta"><span>' + esc(p.size) + '</span>' + stockHtml(p) + '</div>' +
           '<button type="button" class="add" data-add' + (inList ? ' data-in' : '') + (out ? ' disabled' : '') + '>' +
-            (out ? 'Out of stock' : inList ? 'In list (' + list[p.code] + ')' : 'Add to list') +
+            (out ? 'Limited Stock' : inList ? 'In list (' + list[p.code] + ')' : 'Add to list') +
           '</button>' +
         '</div>' +
       '</article>';
@@ -749,7 +749,7 @@
       var inList = list[code] > 0;
       var facts = [p.category];
       if (p.size) facts.push(p.size);
-      if (p.stock !== null) facts.push(out ? 'Out of stock' : p.stock + ' left');
+      if (p.stock !== null) facts.push(out ? 'Limited Stock' : p.stock + ' left');
       detail.innerHTML =
         '<div class="detail">' +
           '<div class="detail-media">' + mediaHtml(p) +
@@ -761,7 +761,7 @@
             (p.note ? '<p class="note">' + esc(p.note) + '</p>' : '') +
             '<div class="detail-actions">' +
               '<button type="button" class="add" data-detail-add' + (inList ? ' data-in' : '') + (out ? ' disabled' : '') + '>' +
-                (out ? 'Out of stock' : inList ? 'Add one more (' + list[code] + ' in list)' : 'Add to list') + '</button>' +
+                (out ? 'Limited Stock' : inList ? 'Add one more (' + list[code] + ' in list)' : 'Add to list') + '</button>' +
               '<button type="button" class="save-btn" data-detail-save aria-pressed="' + isSaved(code) + '">' + (isSaved(code) ? 'Saved' : 'Save') + '</button>' +
             '</div>' +
           '</div>' +
@@ -853,7 +853,7 @@
           html += '<li class="row" data-code="' + esc(c) + '">' + rowMedia(p) +
             '<div><p class="row-name">' + esc(p.name) + '</p><span class="row-price">' + unitText(p) + '</span></div>' +
             '<div class="row-actions">' +
-              (isOut(p) ? '<span class="row-price">Out of stock</span>' : '<button type="button" class="link-btn green" data-move>Add to list</button>') +
+              (isOut(p) ? '<span class="row-price">Limited Stock</span>' : '<button type="button" class="link-btn green" data-move>Add to list</button>') +
               '<button type="button" class="link-btn" data-unsave>Remove</button></div></li>';
         });
         rows.innerHTML = html || '<li class="empty">Nothing saved yet. Tap the heart on any item to keep it here.</li>';
