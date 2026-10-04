@@ -641,7 +641,7 @@
     function cardHtml(p) {
       var inList = list[p.code] > 0;
       var out = isOut(p);
-      var badge = out ? '<span class="badge out">Sold out</span>'
+      var badge = out ? '<span class="badge out">Order Now</span>'
         : p.sale ? '<span class="badge">-' + Math.round((1 - p.sale / p.price) * 100) + '%</span>' : '';
       return '<article class="card" data-code="' + esc(p.code) + '">' +
         '<button type="button" class="card-media" data-detail aria-label="View ' + esc(p.name) + '">' + badge + mediaHtml(p) + '</button>' +
