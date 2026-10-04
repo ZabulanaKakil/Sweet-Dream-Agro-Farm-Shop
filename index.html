@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Sweet Dream Agro Farm catalog. Browse plants, birds and fish, then email us your list.">
+  <title>Catalog | Sweet Dream Agro Farm</title>
+  <link rel="icon" href="images/logo.jpeg" type="image/jpeg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700;9..40,800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #ffffff;
+      --beige: #f2ede0;
+      --beige-deep: #e8dfc9;
+      --ash: #ddd4c4;
+      --ash-dark: #8a7d6b;
+      --wood: #6b4a2f;
+      --wood-dark: #3b2a1c;
+      --green: #2d6a4f;
+      --green-light: #40916c;
+      --green-dark: #1b4332;
+      --green-wash: #e4ecdf;
+      --text: #2a2118;
+      --muted: #6b5f52;
+      --danger: #b91c1c;
+      --font-sans: "DM Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+      --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
+      --radius: 14px;
+      --radius-sm: 10px;
+      --pill: 999px;
+      --shadow-sm: 0 1px 4px rgba(59, 42, 28, 0.08);
+      --shadow: 0 4px 20px rgba(59, 42, 28, 0.1);
+      --shadow-float: 0 16px 40px rgba(59, 42, 28, 0.18);
+      --ease: 280ms cubic-bezier(0.4, 0, 0.2, 1);
+      --focus: 0 0 0 3px rgba(64, 145, 108, 0.35);
+      --bar-h: 64px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      color: var(--text);
+      background: var(--beige);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+    body.has-bar { padding-bottom: calc(var(--bar-h) + env(safe-area-inset-bottom)); }
+    body.locked { overflow: hidden; }
+    img { max-width: 100%; display: block; }
+    button, input, textarea { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: none; box-shadow: var(--focus); }
+    .wrap { width: min(100% - 2rem, 1400px); margin-inline: auto; }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+    }
+
+    /* Header */
+    .header {
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(242, 237, 224, 0.94);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(107, 74, 47, 0.14);
+    }
+    .header-inner {
+      display: flex; align-items: center; gap: 0.75rem;
+      min-height: 60px; padding-block: 0.4rem;
+    }
+    .brand { display: flex; align-items: center; gap: 0.6rem; min-width: 0; margin-right: auto; text-decoration: none; color: inherit; }
+    .brand img { width: 44px; height: 44px; border-radius: 10px; object-fit: cover; box-shadow: var(--shadow-sm); }
+    .brand-name { font-family: var(--font-serif); font-weight: 700; font-size: 1.1rem; color: var(--wood-dark); line-height: 1.1; }
+    .brand-tag { display: block; font-size: 0.72rem; color: var(--muted); }
+    .icon-btn {
+      position: relative;
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+      min-height: 42px; padding: 0 0.9rem;
+      border: 1px solid rgba(107, 74, 47, 0.2);
+      border-radius: var(--pill);
+      background: var(--white);
+      color: var(--wood-dark);
+      font-weight: 700; font-size: 0.88rem;
+      transition: background var(--ease), border-color var(--ease);
+    }
+    .icon-btn:hover { border-color: var(--green); }
+    .icon-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .count {
+      min-width: 1.35rem; height: 1.35rem; padding: 0 0.35rem;
+      border-radius: var(--pill);
+      background: var(--green); color: #fff;
+      font-size: 0.72rem; line-height: 1.35rem; text-align: center;
+    }
+    .count[data-zero] { background: var(--ash); color: var(--muted); }
+
+    /* Intro and filters */
+    .intro { padding: 1.4rem 0 0.4rem; }
+    .intro h1 {
+      margin: 0; font-family: var(--font-serif); font-weight: 700;
+      font-size: clamp(1.55rem, 4.5vw, 2.3rem); color: var(--green-dark); line-height: 1.15;
+    }
+    .intro p { margin: 0.35rem 0 0; color: var(--muted); max-width: 46rem; font-size: 0.95rem; }
+    .tools {
+      position: sticky; top: 60px; z-index: 30;
+      background: var(--beige);
+      padding: 0.75rem 0 0.6rem;
+    }
+    .search { position: relative; }
+    .search svg { position: absolute; left: 0.9rem; top: 50%; width: 18px; height: 18px; transform: translateY(-50%); color: var(--ash-dark); pointer-events: none; }
+    .search input {
+      width: 100%; min-height: 46px;
+      padding: 0 1rem 0 2.6rem;
+      border: 1px solid rgba(107, 74, 47, 0.2);
+      border-radius: var(--pill);
+      background: var(--white);
+      font-size: 1rem;
+    }
+    .search input:focus { border-color: var(--green-light); outline: none; box-shadow: var(--focus); }
+    .chips {
+      display: flex; gap: 0.45rem;
+      margin-top: 0.65rem; padding-bottom: 0.2rem;
+      overflow-x: auto; scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .chips::-webkit-scrollbar { display: none; }
+    .chip {
+      flex-shrink: 0;
+      min-height: 36px; padding: 0 0.95rem;
+      border: 1px solid rgba(107, 74, 47, 0.2);
+      border-radius: var(--pill);
+      background: var(--white);
+      color: var(--wood-dark);
+      font-size: 0.85rem; font-weight: 600;
+      white-space: nowrap;
+      transition: background var(--ease), color var(--ease), border-color var(--ease);
+    }
+    .chip:hover { border-color: var(--green); }
+    .chip[aria-pressed="true"] { background: var(--green); border-color: var(--green); color: #fff; }
+    .chip small { opacity: 0.75; font-weight: 500; margin-left: 0.2rem; }
+    .result-line { margin: 0.5rem 0 0; font-size: 0.8rem; color: var(--muted); }
+
+    /* Grid and cards */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+      padding: 0.4rem 0 2rem;
+    }
+    @media (min-width: 600px) { .grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 1rem; } }
+    @media (min-width: 1200px) { .grid { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); } }
+    .card {
+      position: relative;
+      display: flex; flex-direction: column;
+      border-radius: var(--radius);
+      border: 1px solid rgba(107, 74, 47, 0.12);
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: transform var(--ease), box-shadow var(--ease);
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .card:hover { transform: translateY(-5px); box-shadow: var(--shadow-float); }
+      .card:hover .card-media img { transform: scale(1.05); }
+    }
+    .card-media {
+      position: relative; display: block; width: 100%;
+      aspect-ratio: 1 / 1;
+      padding: 0; border: 0;
+      background: var(--beige-deep);
+      overflow: hidden;
+    }
+    .card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--ease); }
+    .placeholder { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; font-size: 2.6rem; }
+    .badge {
+      position: absolute; top: 0.5rem; left: 0.5rem; z-index: 2;
+      padding: 0.15rem 0.45rem; border-radius: 5px;
+      font-size: 0.68rem; font-weight: 800; color: #fff;
+      background: var(--danger);
+    }
+    .badge.out { background: var(--wood-dark); }
+    .heart {
+      position: absolute; top: 0.45rem; right: 0.45rem; z-index: 3;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 38px; height: 38px;
+      border: 0; border-radius: 50%;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--wood);
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--ease), color var(--ease);
+    }
+    .heart svg { width: 19px; height: 19px; }
+    .heart:active { transform: scale(0.9); }
+    .heart[aria-pressed="true"] { color: var(--danger); }
+    .heart[aria-pressed="true"] svg path { fill: currentColor; }
+    .card-body { display: flex; flex-direction: column; gap: 0.15rem; flex: 1; padding: 0.55rem 0.75rem 0.75rem; min-width: 0; }
+    .card-title {
+      margin: 0; font-size: clamp(0.84rem, 2.2vw, 0.96rem); font-weight: 700; line-height: 1.3;
+      color: var(--green-dark);
+      display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .card-title button { padding: 0; border: 0; background: none; text-align: left; font-weight: inherit; color: inherit; }
+    .card-cat { font-size: 0.7rem; color: var(--ash-dark); }
+    .price-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.45rem; margin-top: 0.15rem; }
+    .price { font-size: clamp(1.08rem, 3.4vw, 1.3rem); font-weight: 800; color: var(--green-dark); font-variant-numeric: tabular-nums; line-height: 1.15; }
+    .price.sale { color: var(--danger); }
+    .price.ask { font-size: 0.92rem; font-weight: 700; color: var(--wood); }
+    .was { font-size: 0.82rem; color: var(--muted); text-decoration: line-through; }
+    .meta {
+      display: flex; justify-content: space-between; gap: 0.4rem;
+      margin-top: auto; padding-top: 0.3rem;
+      font-size: 0.72rem; color: var(--ash-dark);
+    }
+    .stock { color: var(--green-dark); font-weight: 700; white-space: nowrap; }
+    .stock.out { color: var(--danger); }
+    .add {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;
+      width: 100%; min-height: 40px; margin-top: 0.55rem;
+      border: 1px solid var(--green); border-radius: var(--pill);
+      background: var(--green); color: #fff;
+      font-size: 0.85rem; font-weight: 700;
+      transition: background var(--ease), color var(--ease);
+    }
+    .add:hover { background: var(--green-dark); }
+    .add[data-in] { background: var(--green-wash); color: var(--green-dark); border-color: var(--green-light); }
+    .add:disabled { background: var(--beige-deep); border-color: var(--ash); color: var(--muted); cursor: not-allowed; }
+
+    .state { padding: 3rem 1rem; text-align: center; color: var(--muted); }
+    .state strong { display: block; font-family: var(--font-serif); font-size: 1.2rem; color: var(--wood-dark); margin-bottom: 0.3rem; }
+    .skeleton { aspect-ratio: 3 / 4; border-radius: var(--radius); background: linear-gradient(90deg, var(--beige-deep) 0%, #f6f1e6 50%, var(--beige-deep) 100%); background-size: 200% 100%; animation: shimmer 1.3s infinite linear; }
+    @keyframes shimmer { to { background-position: -200% 0; } }
+
+    .footer { padding: 1.5rem 0 2rem; border-top: 1px solid rgba(107, 74, 47, 0.14); font-size: 0.82rem; color: var(--muted); text-align: center; }
+    .footer a { color: var(--green); }
+
+    /* Bottom bar */
+    .bar {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 35;
+      padding: 0.55rem 1rem calc(0.55rem + env(safe-area-inset-bottom));
+      background: var(--green-dark);
+      box-shadow: 0 -8px 24px rgba(27, 67, 50, 0.22);
+      transform: translateY(110%);
+      transition: transform var(--ease);
+    }
+    .bar.show { transform: translateY(0); }
+    .bar button {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      width: min(100%, 560px); min-height: 46px; margin-inline: auto; padding: 0 1.1rem;
+      border: 0; border-radius: var(--pill);
+      background: var(--white); color: var(--green-dark);
+      font-weight: 800; font-size: 0.95rem;
+    }
+    .bar span:last-child { color: var(--green); }
+
+    /* Drawer */
+    .scrim {
+      position: fixed; inset: 0; z-index: 50;
+      background: rgba(42, 29, 18, 0.45);
+      opacity: 0; pointer-events: none;
+      transition: opacity var(--ease);
+    }
+    .scrim.show { opacity: 1; pointer-events: auto; }
+    .drawer {
+      position: fixed; z-index: 60;
+      inset: 0;
+      display: flex; flex-direction: column;
+      background: var(--beige);
+      transform: translateY(100%);
+      transition: transform var(--ease);
+      visibility: hidden;
+    }
+    .drawer.show { transform: none; visibility: visible; }
+    @media (min-width: 760px) {
+      .drawer { inset: 0 0 0 auto; width: 440px; transform: translateX(100%); box-shadow: var(--shadow-float); }
+    }
+    .drawer-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+      padding: calc(0.75rem + env(safe-area-inset-top)) 1rem 0.5rem;
+    }
+    .drawer-head h2 { margin: 0; font-family: var(--font-serif); font-size: 1.3rem; color: var(--wood-dark); }
+    .close {
+      width: 42px; height: 42px; border: 0; border-radius: 50%;
+      background: var(--white); color: var(--wood-dark); font-size: 1.4rem; line-height: 1;
+      box-shadow: var(--shadow-sm);
+    }
+    .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem; margin: 0 1rem; padding: 0.25rem; border-radius: var(--pill); background: var(--beige-deep); }
+    .tab { min-height: 38px; border: 0; border-radius: var(--pill); background: transparent; font-weight: 700; font-size: 0.88rem; color: var(--muted); }
+    .tab[aria-selected="true"] { background: var(--white); color: var(--green-dark); box-shadow: var(--shadow-sm); }
+    .drawer-body { flex: 1; overflow-y: auto; padding: 0.75rem 1rem 1rem; }
+    .rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
+    .row {
+      display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; align-items: center; gap: 0.65rem;
+      padding: 0.5rem; border-radius: var(--radius-sm);
+      background: var(--white); box-shadow: var(--shadow-sm);
+    }
+    .row-img { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; background: var(--beige-deep); }
+    .row-img.placeholder { font-size: 1.5rem; }
+    .row-name { margin: 0; font-weight: 700; font-size: 0.88rem; color: var(--green-dark); line-height: 1.25; overflow-wrap: anywhere; }
+    .row-price { font-size: 0.78rem; color: var(--muted); }
+    .row-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 0.3rem; }
+    .stepper { display: inline-flex; align-items: center; border: 1px solid var(--ash); border-radius: var(--pill); background: var(--beige); }
+    .stepper button { width: 32px; height: 32px; border: 0; background: none; font-weight: 800; color: var(--green-dark); }
+    .stepper span { min-width: 1.6rem; text-align: center; font-weight: 700; font-size: 0.88rem; font-variant-numeric: tabular-nums; }
+    .link-btn { border: 0; background: none; padding: 0.15rem 0; font-size: 0.75rem; font-weight: 600; color: var(--muted); text-decoration: underline; }
+    .link-btn.green { color: var(--green); }
+    .empty { padding: 2rem 0.5rem; text-align: center; color: var(--muted); font-size: 0.92rem; }
+    .total { display: flex; justify-content: space-between; margin: 0.8rem 0 0; padding: 0 0.2rem; font-size: 0.9rem; }
+    .total strong { color: var(--green-dark); }
+    .total-note { margin: 0.15rem 0 0; padding: 0 0.2rem; font-size: 0.74rem; color: var(--muted); }
+
+    .form { display: grid; gap: 0.6rem; margin-top: 1rem; padding: 0.9rem; border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow-sm); }
+    .form h3 { margin: 0; font-size: 0.95rem; color: var(--wood-dark); }
+    .field { display: grid; gap: 0.2rem; }
+    .field label { font-size: 0.78rem; font-weight: 700; color: var(--muted); }
+    .field input, .field textarea {
+      width: 100%; min-height: 44px; padding: 0.55rem 0.8rem;
+      border: 1px solid var(--ash); border-radius: var(--radius-sm);
+      background: var(--beige); font-size: 1rem;
+    }
+    .field textarea { min-height: 70px; resize: vertical; }
+    .field input:focus, .field textarea:focus { border-color: var(--green-light); outline: none; box-shadow: var(--focus); }
+    .field input[aria-invalid="true"] { border-color: var(--danger); }
+    .send {
+      min-height: 50px; border: 0; border-radius: var(--pill);
+      background: var(--green); color: #fff; font-weight: 800; font-size: 1rem;
+      box-shadow: 0 6px 16px rgba(45, 106, 79, 0.28);
+    }
+    .send:hover { background: var(--green-dark); }
+    .send:disabled { background: var(--ash); box-shadow: none; cursor: not-allowed; }
+    .fine { margin: 0; font-size: 0.76rem; color: var(--muted); text-align: center; }
+    .alert { margin: 0; padding: 0.55rem 0.7rem; border-radius: var(--radius-sm); font-size: 0.8rem; background: #fdecec; color: var(--danger); }
+    .alert.ok { background: var(--green-wash); color: var(--green-dark); }
+    .copy-box { width: 100%; min-height: 120px; font-size: 0.78rem; }
+
+    /* Detail dialog */
+    dialog {
+      width: min(100% - 1.5rem, 760px); max-height: calc(100% - 1.5rem);
+      padding: 0; border: 0; border-radius: var(--radius);
+      background: var(--white); color: var(--text);
+      box-shadow: var(--shadow-float);
+    }
+    dialog::backdrop { background: rgba(42, 29, 18, 0.55); }
+    .detail { display: grid; }
+    @media (min-width: 680px) { .detail { grid-template-columns: 1fr 1fr; } }
+    .detail-media { position: relative; aspect-ratio: 1 / 1; background: var(--beige-deep); }
+    .detail-media img { width: 100%; height: 100%; object-fit: cover; }
+    .detail-media .placeholder { font-size: 4rem; }
+    .detail-media .close { position: absolute; top: 0.6rem; right: 0.6rem; z-index: 2; }
+    .detail-body { display: flex; flex-direction: column; gap: 0.5rem; padding: 1.1rem 1.2rem 1.3rem; }
+    .detail-body h2 { margin: 0; font-family: var(--font-serif); font-size: 1.5rem; line-height: 1.2; color: var(--green-dark); }
+    .detail-body .note { margin: 0; font-size: 0.92rem; color: var(--muted); }
+    .facts { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0; padding: 0; list-style: none; }
+    .facts li { padding: 0.2rem 0.6rem; border-radius: var(--pill); background: var(--beige); font-size: 0.78rem; color: var(--wood-dark); }
+    .detail-actions { display: grid; grid-template-columns: 1fr auto; gap: 0.5rem; margin-top: auto; padding-top: 0.5rem; }
+    .detail-actions .add { margin: 0; min-height: 46px; font-size: 0.95rem; }
+    .save-btn {
+      min-height: 46px; padding: 0 1rem;
+      border: 1px solid var(--ash); border-radius: var(--pill);
+      background: var(--white); color: var(--wood-dark); font-weight: 700;
+    }
+    .save-btn[aria-pressed="true"] { color: var(--danger); border-color: rgba(185, 28, 28, 0.35); }
+
+    .toast {
+      position: fixed; left: 50%; bottom: calc(var(--bar-h) + 1rem + env(safe-area-inset-bottom)); z-index: 70;
+      padding: 0.55rem 1rem; border-radius: var(--pill);
+      background: var(--wood-dark); color: #fff; font-size: 0.85rem; font-weight: 600;
+      transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+      transition: transform var(--ease), opacity var(--ease);
+    }
+    .toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+    @media (max-width: 420px) {
+      .brand-tag { display: none; }
+      .icon-btn .label { display: none; }
+      .icon-btn { padding: 0 0.7rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="wrap header-inner">
+      <a class="brand" href="./">
+        <img src="images/logo.jpeg" alt="" width="44" height="44">
+        <span>
+          <span class="brand-name">Sweet Dream Agro Farm</span>
+          <span class="brand-tag">Dream of a Green Country</span>
+        </span>
+      </a>
+      <button type="button" class="icon-btn" data-open="saved" aria-label="Saved items">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.4h2c.7-1.2 2.2-2.4 4.3-2.4 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z" stroke-linejoin="round"/></svg>
+        <span class="label">Saved</span>
+        <span class="count" id="saved-count" data-zero>0</span>
+      </button>
+      <button type="button" class="icon-btn" data-open="list" aria-label="My list">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11" stroke-linecap="round"/><circle cx="4.5" cy="6" r="1.3" fill="currentColor"/><circle cx="4.5" cy="12" r="1.3" fill="currentColor"/><circle cx="4.5" cy="18" r="1.3" fill="currentColor"/></svg>
+        <span class="label">My list</span>
+        <span class="count" id="list-count" data-zero>0</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="wrap intro">
+      <h1>Our catalog</h1>
+      <p>Browse what we grow and keep. Add items to your list and send it to us by email. We will reply with availability and pickup details.</p>
+    </section>
+
+    <div class="tools">
+      <div class="wrap">
+        <label class="search">
+          <span class="sr-only">Search the catalog</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/></svg>
+          <input type="search" id="search" placeholder="Search plants, birds, fish..." autocomplete="off">
+        </label>
+        <div class="chips" id="chips" role="group" aria-label="Categories"></div>
+        <p class="result-line" id="result-line" aria-live="polite"></p>
+      </div>
+    </div>
+
+    <section class="wrap">
+      <div class="grid" id="grid" aria-busy="true">
+        <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      Questions? Email <a href="mailto:tanvir.nahian@dreamersden.org">tanvir.nahian@dreamersden.org</a><br>
+      Prices are in Bangladeshi taka. Browsing and sending a list does not place an order.
+    </div>
+  </footer>
+
+  <div class="bar" id="bar">
+    <button type="button" data-open="list">
+      <span id="bar-text">0 items</span>
+      <span>Send list &rarr;</span>
+    </button>
+  </div>
+
+  <div class="scrim" id="scrim"></div>
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+    <div class="drawer-head">
+      <h2 id="drawer-title">Your items</h2>
+      <button type="button" class="close" id="drawer-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="tabs" role="tablist">
+      <button type="button" class="tab" role="tab" id="tab-list" data-tab="list" aria-selected="true">List <span id="tab-list-n"></span></button>
+      <button type="button" class="tab" role="tab" id="tab-saved" data-tab="saved" aria-selected="false">Saved <span id="tab-saved-n"></span></button>
+    </div>
+    <div class="drawer-body">
+      <ul class="rows" id="rows"></ul>
+      <div id="summary"></div>
+      <form class="form" id="send-form" novalidate>
+        <h3 id="form-title">Send this list to us</h3>
+        <div class="field">
+          <label for="f-name">Your name</label>
+          <input id="f-name" name="name" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="f-email">Your email</label>
+          <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+        </div>
+        <div class="field">
+          <label for="f-phone">Phone (optional)</label>
+          <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel">
+        </div>
+        <div class="field">
+          <label for="f-note">Note (optional)</label>
+          <textarea id="f-note" name="note" placeholder="Pickup day, sizes, questions..."></textarea>
+        </div>
+        <div id="form-msg"></div>
+        <button type="submit" class="send" id="send-btn">Send list</button>
+        <p class="fine">Your email app opens with the list ready. Press Send there. We will reply by email with availability. This does not place an order.</p>
+      </form>
+    </div>
+  </aside>
+
+  <dialog id="detail" aria-labelledby="detail-title"></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+  (function () {
+    'use strict';
+
+    var SHOP_EMAIL = 'tanvir.nahian@dreamersden.org';
+    var CATALOG_URL = 'catalog.csv';
+    var IMAGE_DIR = 'images/';
+    var MAILTO_LIMIT = 1900;
+    var KEY_LIST = 'sd_list_v1';
+    var KEY_SAVED = 'sd_saved_v1';
+    var KEY_CONTACT = 'sd_contact_v1';
+
+    var products = [];
+    var byCode = {};
+    var categories = [];
+    var activeCat = '';
+    var query = '';
+    var tab = 'list';
+    var list = load(KEY_LIST, {});
+    var saved = load(KEY_SAVED, []);
+
+    var $ = function (id) { return document.getElementById(id); };
+    var grid = $('grid');
+    var drawer = $('drawer');
+    var scrim = $('scrim');
+    var detail = $('detail');
+    var lastFocus = null;
+
+    var ICON_HEART = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.4h2c.7-1.2 2.2-2.4 4.3-2.4 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z" stroke-linejoin="round"/></svg>';
+
+    function load(key, fallback) {
+      try {
+        var v = JSON.parse(localStorage.getItem(key));
+        return v === null || v === undefined ? fallback : v;
+      } catch (e) { return fallback; }
+    }
+    function store(key, value) {
+      try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* private mode */ }
+    }
+
+    function esc(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    function parseCsv(text) {
+      text = text.replace(/^\uFEFF/, '');
+      var rows = [], row = [], field = '', inQuotes = false;
+      for (var i = 0; i < text.length; i++) {
+        var c = text[i];
+        if (inQuotes) {
+          if (c === '"') {
+            if (text[i + 1] === '"') { field += '"'; i++; } else { inQuotes = false; }
+          } else { field += c; }
+        } else if (c === '"') { inQuotes = true; }
+        else if (c === ',') { row.push(field); field = ''; }
+        else if (c === '\n' || c === '\r') {
+          if (c === '\r' && text[i + 1] === '\n') i++;
+          row.push(field); field = '';
+          if (row.some(function (f) { return f.trim() !== ''; })) rows.push(row);
+          row = [];
+        } else { field += c; }
+      }
+      row.push(field);
+      if (row.some(function (f) { return f.trim() !== ''; })) rows.push(row);
+      return rows;
+    }
+
+    function toNumber(v) {
+      var n = parseFloat(String(v == null ? '' : v).replace(/[^\d.]/g, ''));
+      return isFinite(n) ? n : 0;
+    }
+
+    function buildProducts(rows) {
+      if (!rows.length) return [];
+      var head = rows[0].map(function (h) { return h.trim().toLowerCase(); });
+      var col = function (name) { return head.indexOf(name); };
+      var idx = {
+        code: col('code'), name: col('name'), category: col('category'), price: col('price'),
+        sale: col('sale_price'), size: col('size'), stock: col('stock'), note: col('note'), image: col('image')
+      };
+      var get = function (r, k) { return idx[k] >= 0 ? (r[idx[k]] || '').trim() : ''; };
+      var out = [];
+      rows.slice(1).forEach(function (r, i) {
+        var name = get(r, 'name');
+        if (!name) return;
+        var price = toNumber(get(r, 'price'));
+        var sale = toNumber(get(r, 'sale'));
+        var stockRaw = get(r, 'stock');
+        out.push({
+          code: get(r, 'code') || 'ROW' + (i + 2),
+          name: name,
+          category: get(r, 'category') || 'Other',
+          price: price,
+          sale: sale > 0 && sale < price ? sale : 0,
+          size: get(r, 'size'),
+          stock: stockRaw === '' ? null : Math.max(0, Math.floor(toNumber(stockRaw))),
+          note: get(r, 'note'),
+          image: get(r, 'image')
+        });
+      });
+      return out;
+    }
+
+    function current(p) { return p.sale || p.price; }
+    function taka(n) { return '\u09F3' + Math.round(n).toLocaleString('en-IN'); }
+    function placeholderFor(cat) {
+      var c = cat.toLowerCase();
+      if (c.indexOf('bird') >= 0) return '\uD83D\uDC26';
+      if (c.indexOf('fish') >= 0) return '\uD83D\uDC1F';
+      return '\uD83C\uDF3F';
+    }
+    function mediaHtml(p, cls) {
+      if (p.image) {
+        return '<img class="' + (cls || '') + '" src="' + esc(IMAGE_DIR + p.image) + '" alt="' + esc(p.name) + '" loading="lazy" decoding="async" data-fallback="' + esc(placeholderFor(p.category)) + '">';
+      }
+      return '<div class="placeholder ' + (cls || '') + '" aria-hidden="true">' + placeholderFor(p.category) + '</div>';
+    }
+    function priceHtml(p) {
+      if (!current(p)) return '<span class="price ask">Price on request</span>';
+      if (p.sale) {
+        return '<span class="price sale">' + taka(p.sale) + '</span><span class="was">' + taka(p.price) + '</span>';
+      }
+      return '<span class="price">' + taka(p.price) + '</span>';
+    }
+    function stockHtml(p) {
+      if (p.stock === null) return '';
+      if (p.stock <= 0) return '<span class="stock out">Out of stock</span>';
+      return '<span class="stock">' + p.stock + ' left</span>';
+    }
+    function isOut(p) { return p.stock !== null && p.stock <= 0; }
+    function isSaved(code) { return saved.indexOf(code) >= 0; }
+
+    function renderChips() {
+      var counts = {};
+      products.forEach(function (p) { counts[p.category] = (counts[p.category] || 0) + 1; });
+      var html = '<button type="button" class="chip" data-cat="" aria-pressed="' + (activeCat === '') + '">All<small>' + products.length + '</small></button>';
+      categories.forEach(function (c) {
+        html += '<button type="button" class="chip" data-cat="' + esc(c) + '" aria-pressed="' + (activeCat === c) + '">' + esc(c) + '<small>' + counts[c] + '</small></button>';
+      });
+      $('chips').innerHTML = html;
+    }
+
+    function filtered() {
+      var q = query.trim().toLowerCase();
+      return products.filter(function (p) {
+        if (activeCat && p.category !== activeCat) return false;
+        if (!q) return true;
+        return (p.name + ' ' + p.category + ' ' + p.note + ' ' + p.code).toLowerCase().indexOf(q) >= 0;
+      });
+    }
+
+    function cardHtml(p) {
+      var inList = list[p.code] > 0;
+      var out = isOut(p);
+      var badge = out ? '<span class="badge out">Sold out</span>'
+        : p.sale ? '<span class="badge">-' + Math.round((1 - p.sale / p.price) * 100) + '%</span>' : '';
+      return '<article class="card" data-code="' + esc(p.code) + '">' +
+        '<button type="button" class="card-media" data-detail aria-label="View ' + esc(p.name) + '">' + badge + mediaHtml(p) + '</button>' +
+        '<button type="button" class="heart" data-save aria-pressed="' + isSaved(p.code) + '" aria-label="Save ' + esc(p.name) + '">' + ICON_HEART + '</button>' +
+        '<div class="card-body">' +
+          '<h3 class="card-title"><button type="button" data-detail>' + esc(p.name) + '</button></h3>' +
+          '<span class="card-cat">' + esc(p.category) + '</span>' +
+          '<div class="price-row">' + priceHtml(p) + '</div>' +
+          '<div class="meta"><span>' + esc(p.size) + '</span>' + stockHtml(p) + '</div>' +
+          '<button type="button" class="add" data-add' + (inList ? ' data-in' : '') + (out ? ' disabled' : '') + '>' +
+            (out ? 'Out of stock' : inList ? 'In list (' + list[p.code] + ')' : 'Add to list') +
+          '</button>' +
+        '</div>' +
+      '</article>';
+    }
+
+    function renderGrid() {
+      var items = filtered();
+      grid.setAttribute('aria-busy', 'false');
+      $('result-line').textContent = items.length + (items.length === 1 ? ' item' : ' items') + (activeCat ? ' in ' + activeCat : '') + (query.trim() ? ' matching "' + query.trim() + '"' : '');
+      if (!items.length) {
+        grid.innerHTML = '<div class="state" style="grid-column:1/-1"><strong>Nothing found</strong>Try another word or pick All.</div>';
+        return;
+      }
+      grid.innerHTML = items.map(cardHtml).join('');
+    }
+
+    function refreshCard(code) {
+      var card = grid.querySelector('.card[data-code="' + cssEscape(code) + '"]');
+      var p = byCode[code];
+      if (card && p) card.outerHTML = cardHtml(p);
+    }
+    function cssEscape(s) { return window.CSS && CSS.escape ? CSS.escape(s) : String(s).replace(/["\\]/g, '\\$&'); }
+
+    function listCount() {
+      return Object.keys(list).reduce(function (n, k) { return n + (byCode[k] ? list[k] : 0); }, 0);
+    }
+    function savedCount() { return saved.filter(function (c) { return byCode[c]; }).length; }
+
+    function updateCounts() {
+      var lc = listCount(), sc = savedCount();
+      setCount($('list-count'), lc);
+      setCount($('saved-count'), sc);
+      $('tab-list-n').textContent = lc ? '(' + lc + ')' : '';
+      $('tab-saved-n').textContent = sc ? '(' + sc + ')' : '';
+      $('bar-text').textContent = lc + (lc === 1 ? ' item' : ' items') + ' in your list';
+      var showBar = lc > 0 && !drawer.classList.contains('show');
+      $('bar').classList.toggle('show', showBar);
+      document.body.classList.toggle('has-bar', lc > 0);
+    }
+    function setCount(el, n) {
+      el.textContent = n;
+      if (n) el.removeAttribute('data-zero'); else el.setAttribute('data-zero', '');
+    }
+
+    var toastTimer;
+    function toast(msg) {
+      var t = $('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { t.classList.remove('show'); }, 1800);
+    }
+
+    function maxQty(p) { return p && p.stock ? p.stock : 999; }
+    function setQty(code, qty) {
+      var p = byCode[code];
+      if (qty > maxQty(p)) {
+        toast('Only ' + maxQty(p) + ' available');
+        qty = maxQty(p);
+      }
+      if (qty > 0) list[code] = qty; else delete list[code];
+      store(KEY_LIST, list);
+      refreshCard(code);
+      updateCounts();
+      if (drawer.classList.contains('show')) renderDrawer();
+      if (detail.open && detail.dataset.code === code) renderDetail(code);
+    }
+    function addToList(code) {
+      var p = byCode[code];
+      if (!p || isOut(p)) return;
+      if ((list[code] || 0) >= maxQty(p)) { toast('Only ' + maxQty(p) + ' available'); return; }
+      setQty(code, (list[code] || 0) + 1);
+      toast(p.name + ' added to your list');
+    }
+    function toggleSaved(code) {
+      var p = byCode[code];
+      if (!p) return;
+      var on = isSaved(code);
+      saved = on ? saved.filter(function (c) { return c !== code; }) : saved.concat(code);
+      store(KEY_SAVED, saved);
+      refreshCard(code);
+      updateCounts();
+      if (drawer.classList.contains('show')) renderDrawer();
+      if (detail.open && detail.dataset.code === code) renderDetail(code);
+      toast(on ? 'Removed from saved' : p.name + ' saved');
+    }
+
+    /* Detail dialog */
+    function renderDetail(code) {
+      var p = byCode[code];
+      if (!p) return;
+      detail.dataset.code = code;
+      var out = isOut(p);
+      var inList = list[code] > 0;
+      var facts = [p.category];
+      if (p.size) facts.push(p.size);
+      if (p.stock !== null) facts.push(out ? 'Out of stock' : p.stock + ' left');
+      detail.innerHTML =
+        '<div class="detail">' +
+          '<div class="detail-media">' + mediaHtml(p) +
+            '<button type="button" class="close" data-close-detail aria-label="Close">&times;</button></div>' +
+          '<div class="detail-body">' +
+            '<h2 id="detail-title">' + esc(p.name) + '</h2>' +
+            '<div class="price-row">' + priceHtml(p) + '</div>' +
+            '<ul class="facts">' + facts.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ul>' +
+            (p.note ? '<p class="note">' + esc(p.note) + '</p>' : '') +
+            '<div class="detail-actions">' +
+              '<button type="button" class="add" data-detail-add' + (inList ? ' data-in' : '') + (out ? ' disabled' : '') + '>' +
+                (out ? 'Out of stock' : inList ? 'Add one more (' + list[code] + ' in list)' : 'Add to list') + '</button>' +
+              '<button type="button" class="save-btn" data-detail-save aria-pressed="' + isSaved(code) + '">' + (isSaved(code) ? 'Saved' : 'Save') + '</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+    }
+    function openDetail(code) {
+      lastFocus = document.activeElement;
+      renderDetail(code);
+      if (typeof detail.showModal === 'function') detail.showModal(); else detail.setAttribute('open', '');
+      document.body.classList.add('locked');
+    }
+    function closeDetail() {
+      if (typeof detail.close === 'function') detail.close(); else detail.removeAttribute('open');
+    }
+    detail.addEventListener('close', function () {
+      if (!drawer.classList.contains('show')) document.body.classList.remove('locked');
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    });
+    detail.addEventListener('click', function (e) {
+      if (e.target === detail || e.target.closest('[data-close-detail]')) { closeDetail(); return; }
+      var code = detail.dataset.code;
+      if (e.target.closest('[data-detail-add]')) addToList(code);
+      else if (e.target.closest('[data-detail-save]')) toggleSaved(code);
+    });
+
+    /* Drawer */
+    function openDrawer(which) {
+      if (detail.open) closeDetail();
+      lastFocus = document.activeElement;
+      tab = which || 'list';
+      renderDrawer();
+      drawer.classList.add('show');
+      scrim.classList.add('show');
+      document.body.classList.add('locked');
+      updateCounts();
+      setTimeout(function () { $('drawer-close').focus(); }, 50);
+    }
+    function closeDrawer() {
+      drawer.classList.remove('show');
+      scrim.classList.remove('show');
+      document.body.classList.remove('locked');
+      updateCounts();
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    function rowMedia(p) {
+      return p.image
+        ? '<img class="row-img" src="' + esc(IMAGE_DIR + p.image) + '" alt="" loading="lazy" data-fallback="' + esc(placeholderFor(p.category)) + '">'
+        : '<div class="row-img placeholder" aria-hidden="true">' + placeholderFor(p.category) + '</div>';
+    }
+    function unitText(p) { return current(p) ? taka(current(p)) + ' each' : 'Price on request'; }
+
+    function renderDrawer() {
+      $('tab-list').setAttribute('aria-selected', tab === 'list');
+      $('tab-saved').setAttribute('aria-selected', tab === 'saved');
+      $('drawer-title').textContent = tab === 'list' ? 'Your list' : 'Saved items';
+      $('form-msg').innerHTML = '';
+      var rows = $('rows');
+      var summary = $('summary');
+      var html = '';
+      var codes;
+
+      if (tab === 'list') {
+        codes = Object.keys(list).filter(function (c) { return byCode[c]; });
+        codes.forEach(function (c) {
+          var p = byCode[c];
+          html += '<li class="row" data-code="' + esc(c) + '">' + rowMedia(p) +
+            '<div><p class="row-name">' + esc(p.name) + '</p><span class="row-price">' + unitText(p) + '</span></div>' +
+            '<div class="row-actions"><div class="stepper">' +
+              '<button type="button" data-step="-1" aria-label="One less ' + esc(p.name) + '">&minus;</button>' +
+              '<span>' + list[c] + '</span>' +
+              '<button type="button" data-step="1" aria-label="One more ' + esc(p.name) + '">+</button>' +
+            '</div><button type="button" class="link-btn" data-remove>Remove</button></div></li>';
+        });
+        rows.innerHTML = html || '<li class="empty">Your list is empty. Tap <strong>Add to list</strong> on any item.</li>';
+        var est = 0, ask = 0;
+        codes.forEach(function (c) { var v = current(byCode[c]); if (v) est += v * list[c]; else ask++; });
+        summary.innerHTML = codes.length
+          ? '<p class="total"><span>Estimated total</span><strong>' + taka(est) + '</strong></p>' +
+            '<p class="total-note">' + (ask ? ask + (ask === 1 ? ' item is' : ' items are') + ' priced on request. ' : '') + 'We confirm the final price by email.</p>'
+          : '';
+        $('form-title').textContent = 'Send this list to us';
+        $('send-btn').textContent = 'Send list';
+        $('send-btn').disabled = !codes.length;
+      } else {
+        codes = saved.filter(function (c) { return byCode[c]; });
+        codes.forEach(function (c) {
+          var p = byCode[c];
+          html += '<li class="row" data-code="' + esc(c) + '">' + rowMedia(p) +
+            '<div><p class="row-name">' + esc(p.name) + '</p><span class="row-price">' + unitText(p) + '</span></div>' +
+            '<div class="row-actions">' +
+              (isOut(p) ? '<span class="row-price">Out of stock</span>' : '<button type="button" class="link-btn green" data-move>Add to list</button>') +
+              '<button type="button" class="link-btn" data-unsave>Remove</button></div></li>';
+        });
+        rows.innerHTML = html || '<li class="empty">Nothing saved yet. Tap the heart on any item to keep it here.</li>';
+        summary.innerHTML = '';
+        $('form-title').textContent = 'Email your saved items to us';
+        $('send-btn').textContent = 'Email my saved items';
+        $('send-btn').disabled = !codes.length;
+      }
+    }
+
+    $('rows').addEventListener('click', function (e) {
+      var row = e.target.closest('.row');
+      if (!row) return;
+      var code = row.dataset.code;
+      var step = e.target.closest('[data-step]');
+      if (step) setQty(code, (list[code] || 0) + parseInt(step.dataset.step, 10));
+      else if (e.target.closest('[data-remove]')) setQty(code, 0);
+      else if (e.target.closest('[data-move]')) addToList(code);
+      else if (e.target.closest('[data-unsave]')) toggleSaved(code);
+    });
+
+    document.querySelectorAll('.tab').forEach(function (b) {
+      b.addEventListener('click', function () { tab = b.dataset.tab; renderDrawer(); });
+    });
+    document.querySelectorAll('[data-open]').forEach(function (b) {
+      b.addEventListener('click', function () { openDrawer(b.dataset.open); });
+    });
+    $('drawer-close').addEventListener('click', closeDrawer);
+    scrim.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && drawer.classList.contains('show') && !detail.open) closeDrawer();
+    });
+
+    /* Sending */
+    var form = $('send-form');
+    var contact = load(KEY_CONTACT, {});
+    ['name', 'email', 'phone'].forEach(function (k) { if (contact[k]) form.elements[k].value = contact[k]; });
+
+    function buildMail() {
+      var f = form.elements;
+      var name = f.name.value.trim();
+      var email = f.email.value.trim();
+      var phone = f.phone.value.trim();
+      var note = f.note.value.trim();
+      var lines = [];
+      var subject;
+
+      if (tab === 'list') {
+        subject = 'Plant list from ' + name;
+        var est = 0;
+        Object.keys(list).filter(function (c) { return byCode[c]; }).forEach(function (c) {
+          var p = byCode[c];
+          var v = current(p);
+          if (v) est += v * list[c];
+          lines.push('- ' + p.name + ' (' + c + ') \u00D7 ' + list[c] + ' \u2014 ' + (v ? taka(v) + (list[c] > 1 ? ' each' : '') : 'price on request'));
+        });
+        lines.push('', 'Estimated total: ' + taka(est));
+      } else {
+        subject = 'Saved plants from ' + name;
+        saved.filter(function (c) { return byCode[c]; }).forEach(function (c) {
+          var p = byCode[c];
+          lines.push('- ' + p.name + ' (' + c + ') \u2014 ' + (current(p) ? taka(current(p)) : 'price on request'));
+        });
+      }
+
+      lines.push('');
+      if (note) lines.push('Note: ' + note);
+      lines.push('Name: ' + name, 'Email: ' + email);
+      if (phone) lines.push('Phone: ' + phone);
+
+      var body = lines.join('\r\n');
+      return {
+        subject: subject,
+        body: body,
+        href: 'mailto:' + SHOP_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body)
+      };
+    }
+
+    function fieldOk(input, ok) {
+      input.setAttribute('aria-invalid', ok ? 'false' : 'true');
+      return ok;
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var f = form.elements;
+      var msg = $('form-msg');
+      var okName = fieldOk(f.name, f.name.value.trim().length > 0);
+      var okEmail = fieldOk(f.email, /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim()));
+      if (!okName || !okEmail) {
+        msg.innerHTML = '<p class="alert">Please add your name and a valid email so we can reply.</p>';
+        (okName ? f.email : f.name).focus();
+        return;
+      }
+      store(KEY_CONTACT, { name: f.name.value.trim(), email: f.email.value.trim(), phone: f.phone.value.trim() });
+
+      var mail = buildMail();
+      if (mail.href.length > MAILTO_LIMIT) {
+        msg.innerHTML = '<p class="alert">This list is too long to open in an email app. Remove a few items and send it in two parts, or copy the text below and email it to ' + esc(SHOP_EMAIL) + '.</p>' +
+          '<div class="field"><label for="copy-box">List text</label><textarea id="copy-box" class="copy-box" readonly>' + esc('Subject: ' + mail.subject + '\n\n' + mail.body) + '</textarea></div>';
+        return;
+      }
+      window.location.href = mail.href;
+      msg.innerHTML = '<p class="alert ok">Your email app should open with the list. Press Send there to reach us. If nothing opened, email ' + esc(SHOP_EMAIL) + '.</p>';
+    });
+
+    /* Grid events */
+    grid.addEventListener('click', function (e) {
+      var card = e.target.closest('.card');
+      if (!card) return;
+      var code = card.dataset.code;
+      if (e.target.closest('[data-save]')) toggleSaved(code);
+      else if (e.target.closest('[data-add]')) addToList(code);
+      else if (e.target.closest('[data-detail]')) openDetail(code);
+    });
+    $('chips').addEventListener('click', function (e) {
+      var chip = e.target.closest('.chip');
+      if (!chip) return;
+      activeCat = chip.dataset.cat;
+      renderChips();
+      renderGrid();
+    });
+    var searchTimer;
+    $('search').addEventListener('input', function (e) {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(function () { query = e.target.value; renderGrid(); }, 120);
+    });
+
+    document.addEventListener('error', function (e) {
+      var img = e.target;
+      if (!img || img.tagName !== 'IMG' || !img.dataset.fallback) return;
+      var ph = document.createElement('div');
+      ph.className = 'placeholder ' + img.className;
+      ph.setAttribute('aria-hidden', 'true');
+      ph.textContent = img.dataset.fallback;
+      img.replaceWith(ph);
+    }, true);
+
+    window.addEventListener('storage', function (e) {
+      if (e.key === KEY_LIST) list = load(KEY_LIST, {});
+      else if (e.key === KEY_SAVED) saved = load(KEY_SAVED, []);
+      else return;
+      renderGrid();
+      updateCounts();
+      if (drawer.classList.contains('show')) renderDrawer();
+    });
+
+    fetch(CATALOG_URL, { cache: 'no-cache' })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+      .then(function (text) {
+        products = buildProducts(parseCsv(text));
+        products.forEach(function (p) { byCode[p.code] = p; if (categories.indexOf(p.category) < 0) categories.push(p.category); });
+        renderChips();
+        renderGrid();
+        updateCounts();
+      })
+      .catch(function () {
+        grid.setAttribute('aria-busy', 'false');
+        grid.innerHTML = '<div class="state" style="grid-column:1/-1"><strong>The catalog could not load</strong>Please refresh the page. If you opened this file directly from your computer, open it through its web address instead.</div>';
+      });
+  })();
+  </script>
+</body>
+</html>
