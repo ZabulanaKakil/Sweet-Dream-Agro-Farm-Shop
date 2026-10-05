@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="Sweet Dream Agro Farm catalog. Browse plants, birds and fish, then email us your list.">
+  <meta name="description" content="Sweet Dream Agro Farm catalog. Browse plants, birds and fish, then email us your wishlist.">
   <title>Catalog | Sweet Dream Agro Farm</title>
   <link rel="icon" href="images/logo.jpeg" type="image/jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,6 +25,7 @@
       --text: #2a2118;
       --muted: #6b5f52;
       --danger: #b91c1c;
+      --warn: #c87830;
       --font-sans: "DM Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
       --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
       --radius: 14px;
@@ -60,7 +61,6 @@
       overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
     }
 
-    /* Header */
     .header {
       position: sticky; top: 0; z-index: 40;
       background: rgba(242, 237, 224, 0.94);
@@ -69,13 +69,33 @@
       border-bottom: 1px solid rgba(107, 74, 47, 0.14);
     }
     .header-inner {
-      display: flex; align-items: center; gap: 0.75rem;
+      display: flex; align-items: center; gap: 0.55rem;
       min-height: 60px; padding-block: 0.4rem;
     }
     .brand { display: flex; align-items: center; gap: 0.6rem; min-width: 0; margin-right: auto; text-decoration: none; color: inherit; }
     .brand img { width: 44px; height: 44px; border-radius: 10px; object-fit: cover; box-shadow: var(--shadow-sm); }
     .brand-name { font-family: var(--font-serif); font-weight: 700; font-size: 1.1rem; color: var(--wood-dark); line-height: 1.1; }
     .brand-tag { display: block; font-size: 0.72rem; color: var(--muted); }
+
+    .site-nav { display: none; align-items: center; gap: 0.15rem; }
+    .site-nav a {
+      padding: 0.45rem 0.85rem;
+      border-radius: var(--pill);
+      color: var(--wood-dark);
+      font-weight: 700; font-size: 0.9rem;
+    }
+    .site-nav a:hover, .site-nav a:focus-visible { background: var(--green-wash); color: var(--green-dark); }
+
+    .nav-toggle {
+      display: inline-flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px;
+      width: 42px; height: 42px; padding: 0;
+      border: 1px solid rgba(107, 74, 47, 0.2);
+      border-radius: 12px;
+      background: var(--white);
+    }
+    .nav-toggle-bar { display: block; width: 16px; height: 2px; background: var(--wood-dark); border-radius: 2px; }
+    .nav-toggle[aria-expanded="true"] { background: var(--green-wash); border-color: var(--green); }
+
     .icon-btn {
       position: relative;
       display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
@@ -97,7 +117,26 @@
     }
     .count[data-zero] { background: var(--ash); color: var(--muted); }
 
-    /* Intro and filters */
+    .mobile-menu {
+      display: none;
+      padding: 0.4rem 1rem 0.75rem;
+      border-top: 1px solid rgba(107, 74, 47, 0.1);
+    }
+    .mobile-menu.show { display: grid; gap: 0.3rem; }
+    .mobile-menu a {
+      display: block; padding: 0.75rem 0.9rem;
+      border-radius: var(--radius-sm);
+      background: var(--white);
+      color: var(--wood-dark);
+      font-weight: 700;
+    }
+
+    @media (min-width: 760px) {
+      .site-nav { display: flex; }
+      .nav-toggle { display: none; }
+      .mobile-menu, .mobile-menu.show { display: none; }
+    }
+
     .intro { padding: 1.4rem 0 0.4rem; }
     .intro h1 {
       margin: 0; font-family: var(--font-serif); font-weight: 700;
@@ -136,14 +175,12 @@
       color: var(--wood-dark);
       font-size: 0.85rem; font-weight: 600;
       white-space: nowrap;
-      transition: background var(--ease), color var(--ease), border-color var(--ease);
     }
     .chip:hover { border-color: var(--green); }
     .chip[aria-pressed="true"] { background: var(--green); border-color: var(--green); color: #fff; }
     .chip small { opacity: 0.75; font-weight: 500; margin-left: 0.2rem; }
     .result-line { margin: 0.5rem 0 0; font-size: 0.8rem; color: var(--muted); }
 
-    /* Grid and cards */
     .grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -175,27 +212,22 @@
     }
     .card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--ease); }
     .placeholder { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; font-size: 2.6rem; }
+    .card-badges {
+      position: absolute; top: 0.45rem; left: 0.45rem; z-index: 2;
+      display: flex; flex-wrap: wrap; gap: 0.25rem;
+      max-width: calc(100% - 0.9rem);
+      pointer-events: none;
+    }
     .badge {
-      position: absolute; top: 0.5rem; left: 0.5rem; z-index: 2;
-      padding: 0.15rem 0.45rem; border-radius: 5px;
-      font-size: 0.68rem; font-weight: 800; color: #fff;
-      background: var(--danger);
+      padding: 0.16rem 0.45rem; border-radius: 5px;
+      font-size: 0.64rem; font-weight: 800; letter-spacing: 0.01em;
+      line-height: 1.2; color: #fff; white-space: nowrap;
     }
-    .badge.out { background: var(--wood-dark); }
-    .heart {
-      position: absolute; top: 0.45rem; right: 0.45rem; z-index: 3;
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 38px; height: 38px;
-      border: 0; border-radius: 50%;
-      background: rgba(255, 255, 255, 0.92);
-      color: var(--wood);
-      box-shadow: var(--shadow-sm);
-      transition: transform var(--ease), color var(--ease);
-    }
-    .heart svg { width: 19px; height: 19px; }
-    .heart:active { transform: scale(0.9); }
-    .heart[aria-pressed="true"] { color: var(--danger); }
-    .heart[aria-pressed="true"] svg path { fill: currentColor; }
+    .badge-order { background: var(--green); }
+    .badge-low { background: #e09850; color: #3b2a1c; }
+    .badge-out { background: var(--wood-dark); }
+    .badge-na { background: #d10909; }
+    .badge-soon { background: #1d4ed8; }
     .card-body { display: flex; flex-direction: column; gap: 0.15rem; flex: 1; padding: 0.55rem 0.75rem 0.75rem; min-width: 0; }
     .card-title {
       margin: 0; font-size: clamp(0.84rem, 2.2vw, 0.96rem); font-weight: 700; line-height: 1.3;
@@ -204,11 +236,8 @@
     }
     .card-title button { padding: 0; border: 0; background: none; text-align: left; font-weight: inherit; color: inherit; }
     .card-cat { font-size: 0.7rem; color: var(--ash-dark); }
-    .price-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.2rem 0.45rem; margin-top: 0.15rem; }
-    .price { font-size: clamp(1.08rem, 3.4vw, 1.3rem); font-weight: 800; color: var(--green-dark); font-variant-numeric: tabular-nums; line-height: 1.15; }
-    .price.sale { color: var(--danger); }
-    .price.ask { font-size: 0.92rem; font-weight: 700; color: var(--wood); }
-    .was { font-size: 0.82rem; color: var(--muted); text-decoration: line-through; }
+    .price-row { margin-top: 0.15rem; }
+    .price.ask { font-size: 0.88rem; font-weight: 700; color: var(--wood); }
     .meta {
       display: flex; justify-content: space-between; gap: 0.4rem;
       margin-top: auto; padding-top: 0.3rem;
@@ -221,8 +250,7 @@
       width: 100%; min-height: 40px; margin-top: 0.55rem;
       border: 1px solid var(--green); border-radius: var(--pill);
       background: var(--green); color: #fff;
-      font-size: 0.85rem; font-weight: 700;
-      transition: background var(--ease), color var(--ease);
+      font-size: 0.8rem; font-weight: 700;
     }
     .add:hover { background: var(--green-dark); }
     .add[data-in] { background: var(--green-wash); color: var(--green-dark); border-color: var(--green-light); }
@@ -233,10 +261,22 @@
     .skeleton { aspect-ratio: 3 / 4; border-radius: var(--radius); background: linear-gradient(90deg, var(--beige-deep) 0%, #f6f1e6 50%, var(--beige-deep) 100%); background-size: 200% 100%; animation: shimmer 1.3s infinite linear; }
     @keyframes shimmer { to { background-position: -200% 0; } }
 
+    .info-section { padding: 2.4rem 0; border-top: 1px solid rgba(107, 74, 47, 0.14); }
+    .info-section h2 { margin: 0 0 0.6rem; font-family: var(--font-serif); font-size: 1.6rem; color: var(--green-dark); }
+    .info-section p { margin: 0 0 0.7rem; color: var(--muted); max-width: 46rem; }
+    .info-grid { display: grid; gap: 0.75rem; margin: 1rem 0; }
+    @media (min-width: 700px) { .info-grid { grid-template-columns: repeat(3, 1fr); } }
+    .info-card { padding: 1rem; border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow-sm); }
+    .info-card h3 { margin: 0 0 0.3rem; font-size: 1rem; color: var(--wood-dark); }
+    .info-card p { margin: 0; font-size: 0.88rem; }
+    .contact-list { display: grid; gap: 0.55rem; margin: 0; padding: 0; list-style: none; max-width: 34rem; }
+    .contact-list li { padding: 0.85rem 1rem; border-radius: var(--radius-sm); background: var(--white); box-shadow: var(--shadow-sm); }
+    .contact-list strong { display: block; font-size: 0.76rem; color: var(--ash-dark); text-transform: uppercase; letter-spacing: 0.04em; }
+    .contact-list a { color: var(--green-dark); font-weight: 700; }
+
     .footer { padding: 1.5rem 0 2rem; border-top: 1px solid rgba(107, 74, 47, 0.14); font-size: 0.82rem; color: var(--muted); text-align: center; }
     .footer a { color: var(--green); }
 
-    /* Bottom bar */
     .bar {
       position: fixed; left: 0; right: 0; bottom: 0; z-index: 35;
       padding: 0.55rem 1rem calc(0.55rem + env(safe-area-inset-bottom));
@@ -255,7 +295,6 @@
     }
     .bar span:last-child { color: var(--green); }
 
-    /* Drawer */
     .scrim {
       position: fixed; inset: 0; z-index: 50;
       background: rgba(42, 29, 18, 0.45);
@@ -278,7 +317,7 @@
     }
     .drawer-head {
       display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
-      padding: calc(0.75rem + env(safe-area-inset-top)) 1rem 0.5rem;
+      padding: calc(0.75rem + env(safe-area-inset-top)) 1rem 0.75rem;
     }
     .drawer-head h2 { margin: 0; font-family: var(--font-serif); font-size: 1.3rem; color: var(--wood-dark); }
     .close {
@@ -286,56 +325,142 @@
       background: var(--white); color: var(--wood-dark); font-size: 1.4rem; line-height: 1;
       box-shadow: var(--shadow-sm);
     }
-    .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem; margin: 0 1rem; padding: 0.25rem; border-radius: var(--pill); background: var(--beige-deep); }
-    .tab { min-height: 38px; border: 0; border-radius: var(--pill); background: transparent; font-weight: 700; font-size: 0.88rem; color: var(--muted); }
-    .tab[aria-selected="true"] { background: var(--white); color: var(--green-dark); box-shadow: var(--shadow-sm); }
-    .drawer-body { flex: 1; overflow-y: auto; padding: 0.75rem 1rem 1rem; }
+    .drawer-body { flex: 1; overflow-y: auto; padding: 0 1rem 1rem; }
     .rows { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
     .row {
-      display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; align-items: center; gap: 0.65rem;
-      padding: 0.5rem; border-radius: var(--radius-sm);
+      display: grid; grid-template-columns: 56px minmax(0, 1fr); align-items: start; gap: 0.65rem;
+      padding: 0.6rem; border-radius: var(--radius-sm);
       background: var(--white); box-shadow: var(--shadow-sm);
     }
     .row-img { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; background: var(--beige-deep); }
     .row-img.placeholder { font-size: 1.5rem; }
     .row-name { margin: 0; font-weight: 700; font-size: 0.88rem; color: var(--green-dark); line-height: 1.25; overflow-wrap: anywhere; }
-    .row-price { font-size: 0.78rem; color: var(--muted); }
-    .row-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 0.3rem; }
+    .row-price { display: block; font-size: 0.75rem; color: var(--muted); }
+    .row-badges { display: flex; flex-wrap: wrap; gap: 0.25rem; margin: 0.3rem 0 0.1rem; }
+    .row-badges .badge { font-size: 0.6rem; }
+    .row-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin-top: 0.45rem; }
     .stepper { display: inline-flex; align-items: center; border: 1px solid var(--ash); border-radius: var(--pill); background: var(--beige); }
     .stepper button { width: 32px; height: 32px; border: 0; background: none; font-weight: 800; color: var(--green-dark); }
-    .stepper span { min-width: 1.6rem; text-align: center; font-weight: 700; font-size: 0.88rem; font-variant-numeric: tabular-nums; }
-    .link-btn { border: 0; background: none; padding: 0.15rem 0; font-size: 0.75rem; font-weight: 600; color: var(--muted); text-decoration: underline; }
-    .link-btn.green { color: var(--green); }
-    .empty { padding: 2rem 0.5rem; text-align: center; color: var(--muted); font-size: 0.92rem; }
-    .total { display: flex; justify-content: space-between; margin: 0.8rem 0 0; padding: 0 0.2rem; font-size: 0.9rem; }
-    .total strong { color: var(--green-dark); }
-    .total-note { margin: 0.15rem 0 0; padding: 0 0.2rem; font-size: 0.74rem; color: var(--muted); }
-
-    .form { display: grid; gap: 0.6rem; margin-top: 1rem; padding: 0.9rem; border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow-sm); }
-    .form h3 { margin: 0; font-size: 0.95rem; color: var(--wood-dark); }
-    .field { display: grid; gap: 0.2rem; }
-    .field label { font-size: 0.78rem; font-weight: 700; color: var(--muted); }
-    .field input, .field textarea {
-      width: 100%; min-height: 44px; padding: 0.55rem 0.8rem;
-      border: 1px solid var(--ash); border-radius: var(--radius-sm);
-      background: var(--beige); font-size: 1rem;
+    .stepper input {
+      width: 2.4rem; height: 32px; padding: 0; border: 0; background: none;
+      text-align: center; font-weight: 700; font-size: 0.88rem; font-variant-numeric: tabular-nums;
     }
-    .field textarea { min-height: 70px; resize: vertical; }
-    .field input:focus, .field textarea:focus { border-color: var(--green-light); outline: none; box-shadow: var(--focus); }
-    .field input[aria-invalid="true"] { border-color: var(--danger); }
+    .all-stock {
+      min-height: 32px; padding: 0 0.75rem;
+      border: 1px solid rgba(107, 74, 47, 0.18); border-radius: var(--pill);
+      background: var(--white); color: var(--wood-dark);
+      font-size: 0.72rem; font-weight: 700;
+    }
+    .all-stock[aria-pressed="true"] {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+    .stepper.is-muted { opacity: 0.4; pointer-events: none; }
+    .link-btn { border: 0; background: none; padding: 0.15rem 0; font-size: 0.75rem; font-weight: 600; color: var(--muted); text-decoration: underline; }
+    .empty { padding: 2rem 0.5rem; text-align: center; color: var(--muted); font-size: 0.92rem; }
+    .total-note { margin: 0.7rem 0 0; font-size: 0.78rem; color: var(--muted); }
+
+    .form {
+      display: grid; gap: 1rem;
+      margin-top: 1.1rem; padding: 1.15rem 1.1rem 1.2rem;
+      border-radius: 18px;
+      background: var(--white);
+      border: 1px solid rgba(107, 74, 47, 0.08);
+      box-shadow: 0 10px 28px rgba(59, 42, 28, 0.06);
+    }
+    .form h3 {
+      margin: 0;
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      color: var(--green-dark);
+    }
+    .form-lead { margin: -0.45rem 0 0; font-size: 0.78rem; color: var(--muted); }
+    .form-grid { display: grid; gap: 0.85rem; }
+    .field { display: grid; gap: 0.38rem; }
+    .field[hidden] { display: none !important; }
+    .field.is-in {
+      animation: field-in 220ms ease;
+    }
+    @keyframes field-in {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: none; }
+    }
+    .field-label {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em;
+      text-transform: uppercase; color: var(--ash-dark);
+    }
+    .field input, .field textarea, .field select {
+      width: 100%; min-height: 46px; padding: 0.7rem 0.9rem;
+      border: 1px solid rgba(107, 74, 47, 0.16);
+      border-radius: 12px;
+      background: #faf7f0;
+      font-size: 0.95rem;
+      transition: border-color var(--ease), box-shadow var(--ease), background var(--ease);
+    }
+    .field textarea { min-height: 88px; resize: vertical; line-height: 1.45; }
+    .field select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%238a7d6b' stroke-width='2'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.85rem center;
+      padding-right: 2.4rem;
+    }
+    .field input:hover, .field textarea:hover, .field select:hover { border-color: rgba(107, 74, 47, 0.32); }
+    .field input:focus, .field textarea:focus, .field select:focus {
+      border-color: var(--green);
+      background: var(--white);
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(45, 106, 79, 0.12);
+    }
+    .field input[aria-invalid="true"], .field textarea[aria-invalid="true"], .field select[aria-invalid="true"] {
+      border-color: var(--danger);
+      background: #fff7f7;
+    }
+    .nested {
+      padding: 0.85rem;
+      border-radius: 12px;
+      background: var(--green-wash);
+      border: 1px dashed rgba(45, 106, 79, 0.28);
+    }
+    .nested .field-label { color: var(--green-dark); }
+    .nested input, .nested textarea { background: var(--white); }
+    .seg {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 0.3rem; padding: 0.28rem;
+      border-radius: 14px;
+      background: #f3eee4;
+    }
+    .seg label {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 42px; padding: 0.4rem 0.5rem;
+      border-radius: 11px;
+      color: var(--muted);
+      font-size: 0.82rem; font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      transition: background var(--ease), color var(--ease), box-shadow var(--ease);
+    }
+    .seg input { position: absolute; opacity: 0; pointer-events: none; }
+    .seg label:has(input:checked) {
+      background: var(--white);
+      color: var(--green-dark);
+      box-shadow: 0 2px 8px rgba(59, 42, 28, 0.1);
+    }
     .send {
       min-height: 50px; border: 0; border-radius: var(--pill);
-      background: var(--green); color: #fff; font-weight: 800; font-size: 1rem;
-      box-shadow: 0 6px 16px rgba(45, 106, 79, 0.28);
+      background: linear-gradient(180deg, #3a7d5e 0%, var(--green) 100%);
+      color: #fff; font-weight: 800; font-size: 0.98rem; letter-spacing: 0.01em;
+      box-shadow: 0 8px 18px rgba(45, 106, 79, 0.22);
     }
     .send:hover { background: var(--green-dark); }
     .send:disabled { background: var(--ash); box-shadow: none; cursor: not-allowed; }
-    .fine { margin: 0; font-size: 0.76rem; color: var(--muted); text-align: center; }
-    .alert { margin: 0; padding: 0.55rem 0.7rem; border-radius: var(--radius-sm); font-size: 0.8rem; background: #fdecec; color: var(--danger); }
+    .fine { margin: 0; font-size: 0.74rem; line-height: 1.45; color: var(--muted); text-align: center; }
+    .alert { margin: 0; padding: 0.6rem 0.75rem; border-radius: 12px; font-size: 0.8rem; background: #fdecec; color: var(--danger); }
     .alert.ok { background: var(--green-wash); color: var(--green-dark); }
     .copy-box { width: 100%; min-height: 120px; font-size: 0.78rem; }
 
-    /* Detail dialog */
     dialog {
       width: min(100% - 1.5rem, 760px); max-height: calc(100% - 1.5rem);
       padding: 0; border: 0; border-radius: var(--radius);
@@ -354,14 +479,8 @@
     .detail-body .note { margin: 0; font-size: 0.92rem; color: var(--muted); }
     .facts { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0; padding: 0; list-style: none; }
     .facts li { padding: 0.2rem 0.6rem; border-radius: var(--pill); background: var(--beige); font-size: 0.78rem; color: var(--wood-dark); }
-    .detail-actions { display: grid; grid-template-columns: 1fr auto; gap: 0.5rem; margin-top: auto; padding-top: 0.5rem; }
-    .detail-actions .add { margin: 0; min-height: 46px; font-size: 0.95rem; }
-    .save-btn {
-      min-height: 46px; padding: 0 1rem;
-      border: 1px solid var(--ash); border-radius: var(--pill);
-      background: var(--white); color: var(--wood-dark); font-weight: 700;
-    }
-    .save-btn[aria-pressed="true"] { color: var(--danger); border-color: rgba(185, 28, 28, 0.35); }
+    .detail-actions { margin-top: auto; padding-top: 0.5rem; }
+    .detail-actions .add { margin: 0; min-height: 46px; font-size: 0.92rem; }
 
     .toast {
       position: fixed; left: 50%; bottom: calc(var(--bar-h) + 1rem + env(safe-area-inset-bottom)); z-index: 70;
@@ -385,30 +504,38 @@
 <body>
   <header class="header">
     <div class="wrap header-inner">
-      <a class="brand" href="./">
+      <a class="brand" href="#catalog">
         <img src="images/logo.jpeg" alt="" width="44" height="44">
         <span>
           <span class="brand-name">Sweet Dream Agro Farm</span>
           <span class="brand-tag">Dream of a Green Country</span>
         </span>
       </a>
-      <button type="button" class="icon-btn" data-open="saved" aria-label="Saved items">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.4h2c.7-1.2 2.2-2.4 4.3-2.4 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z" stroke-linejoin="round"/></svg>
-        <span class="label">Saved</span>
-        <span class="count" id="saved-count" data-zero>0</span>
-      </button>
-      <button type="button" class="icon-btn" data-open="list" aria-label="My list">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11" stroke-linecap="round"/><circle cx="4.5" cy="6" r="1.3" fill="currentColor"/><circle cx="4.5" cy="12" r="1.3" fill="currentColor"/><circle cx="4.5" cy="18" r="1.3" fill="currentColor"/></svg>
-        <span class="label">My list</span>
+      <nav class="site-nav" aria-label="Main">
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button type="button" class="icon-btn" data-open-wishlist aria-label="Wishlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 7h15l-1.4 9H8.2L6 7zm0 0L5 4H2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg>
+        <span class="label">Wishlist</span>
         <span class="count" id="list-count" data-zero>0</span>
       </button>
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
     </div>
+    <nav class="mobile-menu wrap" id="mobile-menu" hidden>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
   </header>
 
   <main>
-    <section class="wrap intro">
+    <section class="wrap intro" id="catalog">
       <h1>Our catalog</h1>
-      <p>Browse what we grow and keep. Add items to your list and send it to us by email. We will reply with availability and pickup details.</p>
+      <p>Browse what we grow and keep. Add items to your wishlist and email it to us. We will reply with availability. This does not place an order.</p>
     </section>
 
     <div class="tools">
@@ -428,56 +555,130 @@
         <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
       </div>
     </section>
+
+    <section class="info-section" id="about">
+      <div class="wrap">
+        <h2>About us</h2>
+        <p>Sweet Dream Agro Farm grows and supplies plants, pots, seeds and garden essentials for homes and communities across Bangladesh — rooted in the dream of a greener country.</p>
+        <p>From balcony herbs to garden fruit trees, we hand-select stock and keep care notes clear so your plants thrive after they leave our farm.</p>
+        <div class="info-grid">
+          <article class="info-card">
+            <h3>Quality plants</h3>
+            <p>Indoor, outdoor, fruit trees, herbs, birds, fish and seasonal varieties.</p>
+          </article>
+          <article class="info-card">
+            <h3>Wishlist, then we confirm</h3>
+            <p>Send your list by email. We reply with availability and the next step. There is no checkout on this page.</p>
+          </article>
+          <article class="info-card">
+            <h3>Pickup or delivery</h3>
+            <p>Choose self pickup or delivery to an address when you send your wishlist.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="info-section" id="contact">
+      <div class="wrap">
+        <h2>Contact</h2>
+        <p>Use the wishlist to send a plant list, or write to us directly.</p>
+        <ul class="contact-list">
+          <li>
+            <strong>Email</strong>
+            <a href="mailto:tanvir.nahian@dreamersden.org">tanvir.nahian@dreamersden.org</a>
+          </li>
+          <li>
+            <strong>Pickup</strong>
+            Available all days. We confirm the time after we receive your wishlist.
+          </li>
+          <li>
+            <strong>Reply</strong>
+            We reply to the email and mobile number you put on your wishlist.
+          </li>
+        </ul>
+      </div>
+    </section>
   </main>
 
   <footer class="footer">
     <div class="wrap">
       Questions? Email <a href="mailto:tanvir.nahian@dreamersden.org">tanvir.nahian@dreamersden.org</a><br>
-      Prices are in Bangladeshi taka. Browsing and sending a list does not place an order.
+      Sending a wishlist does not place an order.
     </div>
   </footer>
 
   <div class="bar" id="bar">
-    <button type="button" data-open="list">
+    <button type="button" data-open-wishlist>
       <span id="bar-text">0 items</span>
-      <span>Send list &rarr;</span>
+      <span>Open wishlist &rarr;</span>
     </button>
   </div>
 
   <div class="scrim" id="scrim"></div>
   <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
     <div class="drawer-head">
-      <h2 id="drawer-title">Your items</h2>
+      <h2 id="drawer-title">Wishlist</h2>
       <button type="button" class="close" id="drawer-close" aria-label="Close">&times;</button>
-    </div>
-    <div class="tabs" role="tablist">
-      <button type="button" class="tab" role="tab" id="tab-list" data-tab="list" aria-selected="true">List <span id="tab-list-n"></span></button>
-      <button type="button" class="tab" role="tab" id="tab-saved" data-tab="saved" aria-selected="false">Saved <span id="tab-saved-n"></span></button>
     </div>
     <div class="drawer-body">
       <ul class="rows" id="rows"></ul>
       <div id="summary"></div>
       <form class="form" id="send-form" novalidate>
-        <h3 id="form-title">Send this list to us</h3>
-        <div class="field">
-          <label for="f-name">Your name</label>
-          <input id="f-name" name="name" autocomplete="name" required>
-        </div>
-        <div class="field">
-          <label for="f-email">Your email</label>
-          <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required>
-        </div>
-        <div class="field">
-          <label for="f-phone">Phone (optional)</label>
-          <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel">
-        </div>
-        <div class="field">
-          <label for="f-note">Note (optional)</label>
-          <textarea id="f-note" name="note" placeholder="Pickup day, sizes, questions..."></textarea>
+        <h3>Send this wishlist</h3>
+        <p class="form-lead">We will reply with availability. This does not place an order.</p>
+        <div class="form-grid">
+          <div class="field">
+            <label class="field-label" for="f-name">Organization or customer name</label>
+            <input id="f-name" name="name" autocomplete="organization" required placeholder="Your name or farm">
+          </div>
+          <div class="field">
+            <label class="field-label" for="f-phone">Mobile number</label>
+            <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required placeholder="01XXXXXXXXX">
+          </div>
+          <div class="field">
+            <label class="field-label" for="f-email">Email to contact you</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="you@email.com">
+          </div>
+          <fieldset class="field" style="border:0;padding:0;margin:0">
+            <legend class="field-label">Delivery method</legend>
+            <div class="seg" role="radiogroup" aria-label="Delivery method">
+              <label>
+                <input type="radio" name="delivery" value="pickup" checked>
+                Self pickup
+              </label>
+              <label>
+                <input type="radio" name="delivery" value="deliver">
+                Deliver to address
+              </label>
+            </div>
+          </fieldset>
+          <div class="field nested" id="address-field" hidden>
+            <label class="field-label" for="f-address">Delivery address</label>
+            <textarea id="f-address" name="address" placeholder="House, road, area, city"></textarea>
+          </div>
+          <div class="field">
+            <label class="field-label" for="f-source">How did you find us?</label>
+            <select id="f-source" name="source" required>
+              <option value="">Select one</option>
+              <option value="fb">Sweet Dream Agro Farm FB page</option>
+              <option value="someone">From someone (mention name)</option>
+              <option value="internet">From the internet</option>
+              <option value="poster">Random poster/banner/searches</option>
+              <option value="unknown">I don't remember</option>
+            </select>
+          </div>
+          <div class="field nested" id="referrer-field" hidden>
+            <label class="field-label" for="f-referrer">Who told you about us?</label>
+            <input id="f-referrer" name="referrer" autocomplete="off" placeholder="Their name">
+          </div>
+          <div class="field">
+            <label class="field-label" for="f-note">Note (optional)</label>
+            <textarea id="f-note" name="note" placeholder="Pickup day, sizes, questions..."></textarea>
+          </div>
         </div>
         <div id="form-msg"></div>
-        <button type="submit" class="send" id="send-btn">Send list</button>
-        <p class="fine">Your email app opens with the list ready. Press Send there. We will reply by email with availability. This does not place an order.</p>
+        <button type="submit" class="send" id="send-btn">Send wishlist</button>
+        <p class="fine">Your email app opens with the list ready. Press Send there to reach us.</p>
       </form>
     </div>
   </aside>
@@ -493,18 +694,19 @@
     var CATALOG_URL = 'catalog.csv';
     var IMAGE_DIR = 'images/';
     var MAILTO_LIMIT = 1900;
+    var LOW_STOCK = 5;
     var KEY_LIST = 'sd_list_v1';
     var KEY_SAVED = 'sd_saved_v1';
-    var KEY_CONTACT = 'sd_contact_v1';
+    var KEY_ALL = 'sd_all_v1';
+    var KEY_CONTACT = 'sd_contact_v3';
 
     var products = [];
     var byCode = {};
     var categories = [];
     var activeCat = '';
     var query = '';
-    var tab = 'list';
     var list = load(KEY_LIST, {});
-    var saved = load(KEY_SAVED, []);
+    var allIn = load(KEY_ALL, {});
 
     var $ = function (id) { return document.getElementById(id); };
     var grid = $('grid');
@@ -512,8 +714,6 @@
     var scrim = $('scrim');
     var detail = $('detail');
     var lastFocus = null;
-
-    var ICON_HEART = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.1 0 3.6 1.2 4.3 2.4h2c.7-1.2 2.2-2.4 4.3-2.4 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z" stroke-linejoin="round"/></svg>';
 
     function load(key, fallback) {
       try {
@@ -524,6 +724,14 @@
     function store(key, value) {
       try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* private mode */ }
     }
+
+    (function mergeOldSaved() {
+      var saved = load(KEY_SAVED, []);
+      if (!Array.isArray(saved) || !saved.length) return;
+      saved.forEach(function (code) { if (!list[code]) list[code] = 1; });
+      store(KEY_LIST, list);
+      try { localStorage.removeItem(KEY_SAVED); } catch (e) {}
+    })();
 
     function esc(s) {
       return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -565,24 +773,23 @@
       var col = function (name) { return head.indexOf(name); };
       var idx = {
         code: col('code'), name: col('name'), category: col('category'), price: col('price'),
-        sale: col('sale_price'), size: col('size'), stock: col('stock'), note: col('note'), image: col('image')
+        sale: col('sale_price'), size: col('size'), stock: col('stock'),
+        available: col('available'), note: col('note'), image: col('image')
       };
       var get = function (r, k) { return idx[k] >= 0 ? (r[idx[k]] || '').trim() : ''; };
       var out = [];
       rows.slice(1).forEach(function (r, i) {
         var name = get(r, 'name');
         if (!name) return;
-        var price = toNumber(get(r, 'price'));
-        var sale = toNumber(get(r, 'sale'));
         var stockRaw = get(r, 'stock');
+        var availRaw = get(r, 'available').toLowerCase();
         out.push({
           code: get(r, 'code') || 'ROW' + (i + 2),
           name: name,
           category: get(r, 'category') || 'Other',
-          price: price,
-          sale: sale > 0 && sale < price ? sale : 0,
           size: get(r, 'size'),
           stock: stockRaw === '' ? null : Math.max(0, Math.floor(toNumber(stockRaw))),
+          available: availRaw === '' ? true : !/^(no|0|false|inactive)$/.test(availRaw),
           note: get(r, 'note'),
           image: get(r, 'image')
         });
@@ -590,8 +797,6 @@
       return out;
     }
 
-    function current(p) { return p.sale || p.price; }
-    function taka(n) { return '\u09F3' + Math.round(n).toLocaleString('en-IN'); }
     function placeholderFor(cat) {
       var c = cat.toLowerCase();
       if (c.indexOf('bird') >= 0) return '\uD83D\uDC26';
@@ -604,20 +809,43 @@
       }
       return '<div class="placeholder ' + (cls || '') + '" aria-hidden="true">' + placeholderFor(p.category) + '</div>';
     }
-    function priceHtml(p) {
-      if (!current(p)) return '<span class="price ask">Price on request</span>';
-      if (p.sale) {
-        return '<span class="price sale">' + taka(p.sale) + '</span><span class="was">' + taka(p.price) + '</span>';
-      }
-      return '<span class="price">' + taka(p.price) + '</span>';
-    }
-    function stockHtml(p) {
-      if (p.stock === null) return '';
-      if (p.stock <= 0) return '<span class="stock out">Out of stock</span>';
-      return '<span class="stock">' + p.stock + ' left</span>';
-    }
     function isOut(p) { return p.stock !== null && p.stock <= 0; }
-    function isSaved(code) { return saved.indexOf(code) >= 0; }
+    function isLow(p) { return p.stock !== null && p.stock > 0 && p.stock <= LOW_STOCK; }
+    function isUnavailable(p) { return p.available === false; }
+    function stockHtml(p) {
+      if (isUnavailable(p)) return '<span class="stock out">Not available</span>';
+      return '';
+    }
+    function statusTags(p) {
+      var tags = [];
+      if (isUnavailable(p)) {
+        tags.push('<span class="badge badge-na">Not available</span>');
+        tags.push('<span class="badge badge-soon">Coming Soon</span>');
+      } else if (isOut(p)) {
+        tags.push('<span class="badge badge-out">Sold out</span>');
+      } else {
+        tags.push('<span class="badge badge-order">Order Now</span>');
+        if (isLow(p)) tags.push('<span class="badge badge-low">Limited stock</span>');
+      }
+      return tags;
+    }
+    function badgeHtml(p) {
+      var tags = statusTags(p);
+      return tags.length ? '<div class="card-badges">' + tags.join('') + '</div>' : '';
+    }
+    function wishBadges(p) {
+      var tags = [];
+      if (isUnavailable(p)) tags.push('<span class="badge badge-na">Not available</span>');
+      else if (isLow(p)) tags.push('<span class="badge badge-low">Limited stock</span>');
+      return tags.length ? '<div class="row-badges">' + tags.join('') + '</div>' : '';
+    }
+    function qtyOf(code) { return list[code] > 0 ? list[code] : 0; }
+    function wantsAll(code) { return !!allIn[code]; }
+    function addLabel(p) {
+      if (!qtyOf(p.code)) return 'Add to my wish list';
+      if (wantsAll(p.code)) return 'In wishlist (all in stock)';
+      return 'In wishlist (' + qtyOf(p.code) + ')';
+    }
 
     function renderChips() {
       var counts = {};
@@ -639,21 +867,15 @@
     }
 
     function cardHtml(p) {
-      var inList = list[p.code] > 0;
-      var out = isOut(p);
-      var badge = out ? '<span class="badge out">Sold out</span>'
-        : p.sale ? '<span class="badge">-' + Math.round((1 - p.sale / p.price) * 100) + '%</span>' : '';
+      var inList = qtyOf(p.code) > 0;
       return '<article class="card" data-code="' + esc(p.code) + '">' +
-        '<button type="button" class="card-media" data-detail aria-label="View ' + esc(p.name) + '">' + badge + mediaHtml(p) + '</button>' +
-        '<button type="button" class="heart" data-save aria-pressed="' + isSaved(p.code) + '" aria-label="Save ' + esc(p.name) + '">' + ICON_HEART + '</button>' +
+        '<button type="button" class="card-media" data-detail aria-label="View ' + esc(p.name) + '">' + badgeHtml(p) + mediaHtml(p) + '</button>' +
         '<div class="card-body">' +
           '<h3 class="card-title"><button type="button" data-detail>' + esc(p.name) + '</button></h3>' +
           '<span class="card-cat">' + esc(p.category) + '</span>' +
-          '<div class="price-row">' + priceHtml(p) + '</div>' +
+          '<div class="price-row"><span class="price ask">Price on request</span></div>' +
           '<div class="meta"><span>' + esc(p.size) + '</span>' + stockHtml(p) + '</div>' +
-          '<button type="button" class="add" data-add' + (inList ? ' data-in' : '') + (out ? ' disabled' : '') + '>' +
-            (out ? 'Out of stock' : inList ? 'In list (' + list[p.code] + ')' : 'Add to list') +
-          '</button>' +
+          '<button type="button" class="add" data-add' + (inList ? ' data-in' : '') + '>' + addLabel(p) + '</button>' +
         '</div>' +
       '</article>';
     }
@@ -677,24 +899,20 @@
     function cssEscape(s) { return window.CSS && CSS.escape ? CSS.escape(s) : String(s).replace(/["\\]/g, '\\$&'); }
 
     function listCount() {
-      return Object.keys(list).reduce(function (n, k) { return n + (byCode[k] ? list[k] : 0); }, 0);
+      return Object.keys(list).reduce(function (n, k) {
+        if (!byCode[k] || !list[k]) return n;
+        return n + (wantsAll(k) ? 1 : list[k]);
+      }, 0);
     }
-    function savedCount() { return saved.filter(function (c) { return byCode[c]; }).length; }
-
     function updateCounts() {
-      var lc = listCount(), sc = savedCount();
-      setCount($('list-count'), lc);
-      setCount($('saved-count'), sc);
-      $('tab-list-n').textContent = lc ? '(' + lc + ')' : '';
-      $('tab-saved-n').textContent = sc ? '(' + sc + ')' : '';
-      $('bar-text').textContent = lc + (lc === 1 ? ' item' : ' items') + ' in your list';
+      var lc = listCount();
+      var el = $('list-count');
+      el.textContent = lc;
+      if (lc) el.removeAttribute('data-zero'); else el.setAttribute('data-zero', '');
+      $('bar-text').textContent = lc + (lc === 1 ? ' item' : ' items') + ' in your wishlist';
       var showBar = lc > 0 && !drawer.classList.contains('show');
       $('bar').classList.toggle('show', showBar);
       document.body.classList.toggle('has-bar', lc > 0);
-    }
-    function setCount(el, n) {
-      el.textContent = n;
-      if (n) el.removeAttribute('data-zero'); else el.setAttribute('data-zero', '');
     }
 
     var toastTimer;
@@ -706,63 +924,65 @@
       toastTimer = setTimeout(function () { t.classList.remove('show'); }, 1800);
     }
 
-    function maxQty(p) { return p && p.stock ? p.stock : 999; }
-    function setQty(code, qty) {
-      var p = byCode[code];
-      if (qty > maxQty(p)) {
-        toast('Only ' + maxQty(p) + ' available');
-        qty = maxQty(p);
-      }
-      if (qty > 0) list[code] = qty; else delete list[code];
+    function persistLists() {
       store(KEY_LIST, list);
+      store(KEY_ALL, allIn);
+    }
+    function setQty(code, qty) {
+      if (qty > 0) list[code] = Math.min(qty, 9999);
+      else {
+        delete list[code];
+        delete allIn[code];
+      }
+      persistLists();
       refreshCard(code);
       updateCounts();
       if (drawer.classList.contains('show')) renderDrawer();
       if (detail.open && detail.dataset.code === code) renderDetail(code);
+    }
+    function toggleAll(code) {
+      if (!qtyOf(code)) list[code] = 1;
+      if (allIn[code]) delete allIn[code];
+      else allIn[code] = true;
+      persistLists();
+      refreshCard(code);
+      updateCounts();
+      if (drawer.classList.contains('show')) renderDrawer();
     }
     function addToList(code) {
       var p = byCode[code];
-      if (!p || isOut(p)) return;
-      if ((list[code] || 0) >= maxQty(p)) { toast('Only ' + maxQty(p) + ' available'); return; }
-      setQty(code, (list[code] || 0) + 1);
-      toast(p.name + ' added to your list');
-    }
-    function toggleSaved(code) {
-      var p = byCode[code];
       if (!p) return;
-      var on = isSaved(code);
-      saved = on ? saved.filter(function (c) { return c !== code; }) : saved.concat(code);
-      store(KEY_SAVED, saved);
-      refreshCard(code);
-      updateCounts();
-      if (drawer.classList.contains('show')) renderDrawer();
-      if (detail.open && detail.dataset.code === code) renderDetail(code);
-      toast(on ? 'Removed from saved' : p.name + ' saved');
+      setQty(code, qtyOf(code) + 1);
+      toast(p.name + ' added to your wishlist');
     }
 
-    /* Detail dialog */
     function renderDetail(code) {
       var p = byCode[code];
       if (!p) return;
       detail.dataset.code = code;
       var out = isOut(p);
-      var inList = list[code] > 0;
-      var facts = [p.category];
+      var facts = [p.category, 'Price on request'];
       if (p.size) facts.push(p.size);
-      if (p.stock !== null) facts.push(out ? 'Out of stock' : p.stock + ' left');
+      if (isUnavailable(p)) {
+        facts.push('Not available');
+        facts.push('Coming Soon');
+      } else {
+        if (out) facts.push('Out of stock');
+        if (isLow(p)) facts.push('Limited stock');
+        if (!out) facts.push('Order Now');
+      }
       detail.innerHTML =
         '<div class="detail">' +
           '<div class="detail-media">' + mediaHtml(p) +
             '<button type="button" class="close" data-close-detail aria-label="Close">&times;</button></div>' +
           '<div class="detail-body">' +
             '<h2 id="detail-title">' + esc(p.name) + '</h2>' +
-            '<div class="price-row">' + priceHtml(p) + '</div>' +
+            '<div class="price-row"><span class="price ask">Price on request</span></div>' +
             '<ul class="facts">' + facts.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ul>' +
             (p.note ? '<p class="note">' + esc(p.note) + '</p>' : '') +
             '<div class="detail-actions">' +
-              '<button type="button" class="add" data-detail-add' + (inList ? ' data-in' : '') + (out ? ' disabled' : '') + '>' +
-                (out ? 'Out of stock' : inList ? 'Add one more (' + list[code] + ' in list)' : 'Add to list') + '</button>' +
-              '<button type="button" class="save-btn" data-detail-save aria-pressed="' + isSaved(code) + '">' + (isSaved(code) ? 'Saved' : 'Save') + '</button>' +
+              '<button type="button" class="add" data-detail-add' + (qtyOf(code) > 0 ? ' data-in' : '') + '>' +
+                (qtyOf(code) > 0 ? (wantsAll(code) ? 'Add one more (all in stock)' : 'Add one more (' + qtyOf(code) + ' in wishlist)') : 'Add to my wish list') + '</button>' +
             '</div>' +
           '</div>' +
         '</div>';
@@ -782,20 +1002,17 @@
     });
     detail.addEventListener('click', function (e) {
       if (e.target === detail || e.target.closest('[data-close-detail]')) { closeDetail(); return; }
-      var code = detail.dataset.code;
-      if (e.target.closest('[data-detail-add]')) addToList(code);
-      else if (e.target.closest('[data-detail-save]')) toggleSaved(code);
+      if (e.target.closest('[data-detail-add]')) addToList(detail.dataset.code);
     });
 
-    /* Drawer */
-    function openDrawer(which) {
+    function openDrawer() {
       if (detail.open) closeDetail();
       lastFocus = document.activeElement;
-      tab = which || 'list';
       renderDrawer();
       drawer.classList.add('show');
       scrim.classList.add('show');
       document.body.classList.add('locked');
+      closeMenu();
       updateCounts();
       setTimeout(function () { $('drawer-close').focus(); }, 50);
     }
@@ -812,85 +1029,129 @@
         ? '<img class="row-img" src="' + esc(IMAGE_DIR + p.image) + '" alt="" loading="lazy" data-fallback="' + esc(placeholderFor(p.category)) + '">'
         : '<div class="row-img placeholder" aria-hidden="true">' + placeholderFor(p.category) + '</div>';
     }
-    function unitText(p) { return current(p) ? taka(current(p)) + ' each' : 'Price on request'; }
 
     function renderDrawer() {
-      $('tab-list').setAttribute('aria-selected', tab === 'list');
-      $('tab-saved').setAttribute('aria-selected', tab === 'saved');
-      $('drawer-title').textContent = tab === 'list' ? 'Your list' : 'Saved items';
       $('form-msg').innerHTML = '';
-      var rows = $('rows');
-      var summary = $('summary');
+      var codes = Object.keys(list).filter(function (c) { return byCode[c]; });
       var html = '';
-      var codes;
-
-      if (tab === 'list') {
-        codes = Object.keys(list).filter(function (c) { return byCode[c]; });
-        codes.forEach(function (c) {
-          var p = byCode[c];
-          html += '<li class="row" data-code="' + esc(c) + '">' + rowMedia(p) +
-            '<div><p class="row-name">' + esc(p.name) + '</p><span class="row-price">' + unitText(p) + '</span></div>' +
-            '<div class="row-actions"><div class="stepper">' +
-              '<button type="button" data-step="-1" aria-label="One less ' + esc(p.name) + '">&minus;</button>' +
-              '<span>' + list[c] + '</span>' +
-              '<button type="button" data-step="1" aria-label="One more ' + esc(p.name) + '">+</button>' +
-            '</div><button type="button" class="link-btn" data-remove>Remove</button></div></li>';
-        });
-        rows.innerHTML = html || '<li class="empty">Your list is empty. Tap <strong>Add to list</strong> on any item.</li>';
-        var est = 0, ask = 0;
-        codes.forEach(function (c) { var v = current(byCode[c]); if (v) est += v * list[c]; else ask++; });
-        summary.innerHTML = codes.length
-          ? '<p class="total"><span>Estimated total</span><strong>' + taka(est) + '</strong></p>' +
-            '<p class="total-note">' + (ask ? ask + (ask === 1 ? ' item is' : ' items are') + ' priced on request. ' : '') + 'We confirm the final price by email.</p>'
-          : '';
-        $('form-title').textContent = 'Send this list to us';
-        $('send-btn').textContent = 'Send list';
-        $('send-btn').disabled = !codes.length;
-      } else {
-        codes = saved.filter(function (c) { return byCode[c]; });
-        codes.forEach(function (c) {
-          var p = byCode[c];
-          html += '<li class="row" data-code="' + esc(c) + '">' + rowMedia(p) +
-            '<div><p class="row-name">' + esc(p.name) + '</p><span class="row-price">' + unitText(p) + '</span></div>' +
-            '<div class="row-actions">' +
-              (isOut(p) ? '<span class="row-price">Out of stock</span>' : '<button type="button" class="link-btn green" data-move>Add to list</button>') +
-              '<button type="button" class="link-btn" data-unsave>Remove</button></div></li>';
-        });
-        rows.innerHTML = html || '<li class="empty">Nothing saved yet. Tap the heart on any item to keep it here.</li>';
-        summary.innerHTML = '';
-        $('form-title').textContent = 'Email your saved items to us';
-        $('send-btn').textContent = 'Email my saved items';
-        $('send-btn').disabled = !codes.length;
-      }
+      codes.forEach(function (c) {
+        var p = byCode[c];
+        var allOn = wantsAll(c);
+        html += '<li class="row" data-code="' + esc(c) + '">' + rowMedia(p) +
+          '<div><p class="row-name">' + esc(p.name) + '</p>' + wishBadges(p) +
+          '<span class="row-price">' + (allOn ? 'All items in stock' : 'Price on request') + '</span>' +
+          '<div class="row-actions"><div class="stepper' + (allOn ? ' is-muted' : '') + '">' +
+            '<button type="button" data-step="-1" aria-label="One less ' + esc(p.name) + '">&minus;</button>' +
+            '<input type="number" min="1" value="' + qtyOf(c) + '" data-qty inputmode="numeric" aria-label="Quantity for ' + esc(p.name) + '"' + (allOn ? ' disabled' : '') + '>' +
+            '<button type="button" data-step="1" aria-label="One more ' + esc(p.name) + '">+</button>' +
+          '</div>' +
+          '<button type="button" class="all-stock" data-all aria-pressed="' + allOn + '">All in stock</button>' +
+          '<button type="button" class="link-btn" data-remove>Remove</button></div></div></li>';
+      });
+      $('rows').innerHTML = html || '<li class="empty">Your wishlist is empty. Tap <strong>Add to my wish list</strong> on any item.</li>';
+      $('summary').innerHTML = codes.length
+        ? '<p class="total-note">Prices are on request. We confirm availability and the final price by email.</p>'
+        : '';
+      $('send-btn').disabled = !codes.length;
     }
 
     $('rows').addEventListener('click', function (e) {
       var row = e.target.closest('.row');
       if (!row) return;
       var code = row.dataset.code;
+      var p = byCode[code];
       var step = e.target.closest('[data-step]');
-      if (step) setQty(code, (list[code] || 0) + parseInt(step.dataset.step, 10));
+      if (step) setQty(code, qtyOf(code) + parseInt(step.dataset.step, 10));
+      else if (e.target.closest('[data-all]')) toggleAll(code);
       else if (e.target.closest('[data-remove]')) setQty(code, 0);
-      else if (e.target.closest('[data-move]')) addToList(code);
-      else if (e.target.closest('[data-unsave]')) toggleSaved(code);
+    });
+    $('rows').addEventListener('change', function (e) {
+      var input = e.target.closest('[data-qty]');
+      if (!input) return;
+      var row = input.closest('.row');
+      var qty = Math.floor(toNumber(input.value));
+      setQty(row.dataset.code, qty > 0 ? qty : 1);
     });
 
-    document.querySelectorAll('.tab').forEach(function (b) {
-      b.addEventListener('click', function () { tab = b.dataset.tab; renderDrawer(); });
-    });
-    document.querySelectorAll('[data-open]').forEach(function (b) {
-      b.addEventListener('click', function () { openDrawer(b.dataset.open); });
+    document.querySelectorAll('[data-open-wishlist]').forEach(function (b) {
+      b.addEventListener('click', openDrawer);
     });
     $('drawer-close').addEventListener('click', closeDrawer);
     scrim.addEventListener('click', closeDrawer);
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && drawer.classList.contains('show') && !detail.open) closeDrawer();
+      if (e.key === 'Escape') closeMenu();
     });
 
-    /* Sending */
+    var navToggle = $('nav-toggle');
+    var mobileMenu = $('mobile-menu');
+    function closeMenu() {
+      navToggle.setAttribute('aria-expanded', 'false');
+      navToggle.setAttribute('aria-label', 'Open menu');
+      mobileMenu.classList.remove('show');
+      mobileMenu.hidden = true;
+    }
+    function toggleMenu() {
+      var open = navToggle.getAttribute('aria-expanded') !== 'true';
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      mobileMenu.classList.toggle('show', open);
+      mobileMenu.hidden = !open;
+    }
+    navToggle.addEventListener('click', toggleMenu);
+    mobileMenu.addEventListener('click', function (e) {
+      if (e.target.closest('a')) closeMenu();
+    });
+    document.querySelectorAll('.site-nav a, .mobile-menu a').forEach(function (a) {
+      a.addEventListener('click', function () { closeDrawer(); });
+    });
+
     var form = $('send-form');
+    var addressField = $('address-field');
+    var referrerField = $('referrer-field');
+    var SOURCE_LABEL = {
+      fb: 'Sweet Dream Agro Farm FB page',
+      someone: 'From someone',
+      internet: 'From the internet',
+      poster: 'Random poster/banner/searches',
+      unknown: "I don't remember"
+    };
     var contact = load(KEY_CONTACT, {});
-    ['name', 'email', 'phone'].forEach(function (k) { if (contact[k]) form.elements[k].value = contact[k]; });
+    ['name', 'email', 'phone', 'address', 'note', 'source', 'referrer'].forEach(function (k) {
+      if (contact[k] && form.elements[k]) form.elements[k].value = contact[k];
+    });
+    if (contact.delivery === 'deliver') {
+      form.elements.delivery.value = 'deliver';
+    }
+    function showField(el, on) {
+      var wasHidden = el.hidden;
+      el.hidden = !on;
+      el.classList.toggle('is-in', on && wasHidden);
+      if (!on) el.classList.remove('is-in');
+    }
+    function syncDelivery() {
+      var deliver = form.elements.delivery.value === 'deliver';
+      showField(addressField, deliver);
+      $('f-address').required = deliver;
+      if (!deliver) $('f-address').removeAttribute('aria-invalid');
+    }
+    function syncSource() {
+      var someone = form.elements.source.value === 'someone';
+      showField(referrerField, someone);
+      $('f-referrer').required = someone;
+      if (!someone) $('f-referrer').removeAttribute('aria-invalid');
+    }
+    form.querySelectorAll('input[name="delivery"]').forEach(function (r) {
+      r.addEventListener('change', syncDelivery);
+    });
+    $('f-source').addEventListener('change', syncSource);
+    syncDelivery();
+    syncSource();
+
+    function phoneOk(v) {
+      var digits = String(v).replace(/\D/g, '');
+      return digits.length >= 10 && digits.length <= 15;
+    }
 
     function buildMail() {
       var f = form.elements;
@@ -898,32 +1159,28 @@
       var email = f.email.value.trim();
       var phone = f.phone.value.trim();
       var note = f.note.value.trim();
+      var deliver = f.delivery.value === 'deliver';
+      var address = f.address.value.trim();
+      var source = f.source.value;
+      var referrer = f.referrer.value.trim();
+      var found = SOURCE_LABEL[source] || source;
+      if (source === 'someone' && referrer) found += ' (' + referrer + ')';
       var lines = [];
-      var subject;
-
-      if (tab === 'list') {
-        subject = 'Plant list from ' + name;
-        var est = 0;
-        Object.keys(list).filter(function (c) { return byCode[c]; }).forEach(function (c) {
-          var p = byCode[c];
-          var v = current(p);
-          if (v) est += v * list[c];
-          lines.push('- ' + p.name + ' (' + c + ') \u00D7 ' + list[c] + ' \u2014 ' + (v ? taka(v) + (list[c] > 1 ? ' each' : '') : 'price on request'));
-        });
-        lines.push('', 'Estimated total: ' + taka(est));
-      } else {
-        subject = 'Saved plants from ' + name;
-        saved.filter(function (c) { return byCode[c]; }).forEach(function (c) {
-          var p = byCode[c];
-          lines.push('- ' + p.name + ' (' + c + ') \u2014 ' + (current(p) ? taka(current(p)) : 'price on request'));
-        });
-      }
-
+      Object.keys(list).filter(function (c) { return byCode[c]; }).forEach(function (c) {
+        var p = byCode[c];
+        var extra = isUnavailable(p) ? ' \u2014 not available / coming soon' : ' \u2014 price on request';
+        if (wantsAll(c)) lines.push('- ' + p.name + ' (' + c + ') \u2014 all items in stock' + extra);
+        else lines.push('- ' + p.name + ' (' + c + ') \u00D7 ' + qtyOf(c) + extra);
+      });
       lines.push('');
+      lines.push('Name: ' + name);
+      lines.push('Mobile: ' + phone);
+      lines.push('Email: ' + email);
+      lines.push('Preferred method: ' + (deliver ? 'Deliver to address' : 'Self pickup'));
+      if (deliver && address) lines.push('Address: ' + address);
+      lines.push('How they found us: ' + found);
       if (note) lines.push('Note: ' + note);
-      lines.push('Name: ' + name, 'Email: ' + email);
-      if (phone) lines.push('Phone: ' + phone);
-
+      var subject = 'Wishlist from ' + name;
       var body = lines.join('\r\n');
       return {
         subject: subject,
@@ -942,31 +1199,56 @@
       var f = form.elements;
       var msg = $('form-msg');
       var okName = fieldOk(f.name, f.name.value.trim().length > 0);
+      var okPhone = fieldOk(f.phone, phoneOk(f.phone.value));
       var okEmail = fieldOk(f.email, /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim()));
-      if (!okName || !okEmail) {
-        msg.innerHTML = '<p class="alert">Please add your name and a valid email so we can reply.</p>';
-        (okName ? f.email : f.name).focus();
+      var deliver = f.delivery.value === 'deliver';
+      var okAddr = !deliver || fieldOk(f.address, f.address.value.trim().length > 5);
+      var okSource = fieldOk(f.source, !!SOURCE_LABEL[f.source.value]);
+      var someone = f.source.value === 'someone';
+      var okReferrer = !someone || fieldOk(f.referrer, f.referrer.value.trim().length > 1);
+      if (!okName || !okPhone || !okEmail || !okAddr || !okSource || !okReferrer) {
+        var missing = [];
+        if (!okName) missing.push('name');
+        if (!okPhone) missing.push('mobile number');
+        if (!okEmail) missing.push('email');
+        if (!okAddr) missing.push('delivery address');
+        if (!okSource) missing.push('how you found us');
+        if (!okReferrer) missing.push('the name of who told you');
+        msg.innerHTML = '<p class="alert">Please fill in your ' + missing.join(', ') + ' before sending.</p>';
+        if (!okName) f.name.focus();
+        else if (!okPhone) f.phone.focus();
+        else if (!okEmail) f.email.focus();
+        else if (!okAddr) f.address.focus();
+        else if (!okSource) f.source.focus();
+        else f.referrer.focus();
         return;
       }
-      store(KEY_CONTACT, { name: f.name.value.trim(), email: f.email.value.trim(), phone: f.phone.value.trim() });
+      store(KEY_CONTACT, {
+        name: f.name.value.trim(),
+        email: f.email.value.trim(),
+        phone: f.phone.value.trim(),
+        address: f.address.value.trim(),
+        note: f.note.value.trim(),
+        delivery: f.delivery.value,
+        source: f.source.value,
+        referrer: f.referrer.value.trim()
+      });
 
       var mail = buildMail();
       if (mail.href.length > MAILTO_LIMIT) {
-        msg.innerHTML = '<p class="alert">This list is too long to open in an email app. Remove a few items and send it in two parts, or copy the text below and email it to ' + esc(SHOP_EMAIL) + '.</p>' +
-          '<div class="field"><label for="copy-box">List text</label><textarea id="copy-box" class="copy-box" readonly>' + esc('Subject: ' + mail.subject + '\n\n' + mail.body) + '</textarea></div>';
+        msg.innerHTML = '<p class="alert">This wishlist is too long to open in an email app. Remove a few items and send it in two parts, or copy the text below and email it to ' + esc(SHOP_EMAIL) + '.</p>' +
+          '<div class="field"><label for="copy-box">Wishlist text</label><textarea id="copy-box" class="copy-box" readonly>' + esc('Subject: ' + mail.subject + '\n\n' + mail.body) + '</textarea></div>';
         return;
       }
       window.location.href = mail.href;
-      msg.innerHTML = '<p class="alert ok">Your email app should open with the list. Press Send there to reach us. If nothing opened, email ' + esc(SHOP_EMAIL) + '.</p>';
+      msg.innerHTML = '<p class="alert ok">Your email app should open with the wishlist. Press Send there to reach us. If nothing opened, email ' + esc(SHOP_EMAIL) + '.</p>';
     });
 
-    /* Grid events */
     grid.addEventListener('click', function (e) {
       var card = e.target.closest('.card');
       if (!card) return;
       var code = card.dataset.code;
-      if (e.target.closest('[data-save]')) toggleSaved(code);
-      else if (e.target.closest('[data-add]')) addToList(code);
+      if (e.target.closest('[data-add]')) addToList(code);
       else if (e.target.closest('[data-detail]')) openDetail(code);
     });
     $('chips').addEventListener('click', function (e) {
@@ -993,9 +1275,9 @@
     }, true);
 
     window.addEventListener('storage', function (e) {
-      if (e.key === KEY_LIST) list = load(KEY_LIST, {});
-      else if (e.key === KEY_SAVED) saved = load(KEY_SAVED, []);
-      else return;
+      if (e.key !== KEY_LIST && e.key !== KEY_ALL) return;
+      list = load(KEY_LIST, {});
+      allIn = load(KEY_ALL, {});
       renderGrid();
       updateCounts();
       if (drawer.classList.contains('show')) renderDrawer();

@@ -1,6 +1,6 @@
 # Sweet Dream Agro Farm — Catalog
 
-A one-page catalog for customers. They browse plants, birds and fish, build a list or save favourites, and send it by email to **tanvir.nahian@dreamersden.org**. There is no checkout and no payment on this site.
+A one-page catalog for customers. They browse plants, birds and fish, add items to one **Wishlist**, and email it to **tanvir.nahian@dreamersden.org**. Every card shows **Price on request**, plus **Order Now** or **Limited stock**. There is no checkout and no payment on this site.
 
 **Live site:** https://zabulanakakil.github.io/Sweet-Dream-Agro-Farm-Shop/
 
@@ -32,7 +32,8 @@ Use **CSV UTF-8**. Plain "CSV" can break the taka sign and non-English text.
 | `price` | Price in taka, numbers only. `0` or blank shows "Price on request". |
 | `sale_price` | Lower promotional price, or blank. Shows a red price and a discount badge. |
 | `size` | Short size text, such as `6 inch pot` (optional) |
-| `stock` | Number in stock. `0` shows "Out of stock". Customers cannot list more than this number. Blank hides the stock line. |
+| `stock` | Number in stock. Used only for the Limited stock tag. It does not block adding to a wishlist. |
+| `available` | `yes` for current stock, `no` for inactive / previously sold items. `no` shows **Not available** and **Coming Soon**. |
 | `note` | One short description shown when a card is opened (optional) |
 | `image` | Photo filename inside `images/`, or blank for a leaf / bird / fish placeholder |
 
@@ -48,16 +49,21 @@ Keep photos under about 500 KB each so the page loads quickly on mobile data.
 
 Delete its row from `catalog.csv` and upload the file. The photo can stay in `images/` or be deleted.
 
-## How customer lists reach you
+## How customer wishlists reach you
 
-When a customer presses **Send list** (or **Email my saved items**), their own email app opens with a ready message to tanvir.nahian@dreamersden.org. They press Send there. Subjects:
+When a customer presses **Send wishlist**, their own email app opens with a ready message to tanvir.nahian@dreamersden.org. They press Send there. Subject: `Wishlist from {name}`.
 
-- `Plant list from {name}` — the list with quantities and an estimated total
-- `Saved plants from {name}` — their saved favourites
+They must fill in:
 
-Each mail ends with the customer's name, email, phone (if given) and note. Reply to them directly from your inbox.
+- Organization or customer name
+- Mobile number
+- Email
+- Delivery method: **Self pickup** or **Deliver to address** (address required if they choose delivery)
+- How they found us (required). If they choose “From someone”, they must give that person’s name.
 
-To change the receiving address, edit `SHOP_EMAIL` near the top of the script in `index.html`, and the address in the footer.
+Each mail lists the items and quantities. If they turn on **All in stock**, that line says “all items in stock” instead of a number. Reply to them directly from your inbox.
+
+To change the receiving address, edit `SHOP_EMAIL` near the top of the script in `index.html`, and the address in the footer and Contact section.
 
 ## Re-export everything from the shop database
 
