@@ -1,6 +1,6 @@
 # Sweet Dream Agro Farm — Catalog
 
-A one-page catalog for customers. They browse plants, birds and fish, add items to one **Wishlist**, and email it to **tanvir.nahian@dreamersden.org**. Cards show the CSV price when one is set, otherwise **Price on request**, plus **Order Now**, **Limited stock**, or **Coming Soon**. There is no checkout and no payment on this site. Sending a wishlist is an inquiry, not an order.
+A one-page catalog for customers. They browse plants, birds and fish, add items to one **Wishlist**, and email it to **tanvir.nahian@dreamersden.org**. Every card says **Price on request**. Stock shows as **Order Now**, **Limited stock**, or **Coming Soon**. There is no checkout and no payment on this site. Sending a wishlist is an inquiry, not an order.
 
 **Live site:** https://zabulanakakil.github.io/Sweet-Dream-Agro-Farm-Shop/
 
@@ -12,7 +12,7 @@ A one-page catalog for customers. They browse plants, birds and fish, add items 
 | `catalog.csv` | The product list. Open it in Excel. |
 | `images/` | Product photos and `logo.jpeg` |
 
-## Change a price, stock or name
+## Change stock or a name
 
 1. Download `catalog.csv` from this repo (open the file on GitHub, then the download button).
 2. Open it in Excel and edit the cells.
@@ -29,8 +29,8 @@ Use **CSV UTF-8**. Plain "CSV" can break the taka sign and non-English text.
 | `code` | Unique product code, such as `OTH03`. Keep it the same when editing a row; customers' saved lists use it. |
 | `name` | Name shown on the card |
 | `category` | Category chip it appears under. A new name here creates a new chip. |
-| `price` | Price in taka, numbers only. `0` or blank shows "Price on request". |
-| `sale_price` | Lower promotional price, or blank. Shows a red price and a discount badge. |
+| `price` | Kept in the file, but not shown. Every item says "Price on request". |
+| `sale_price` | Kept in the file, but not shown. |
 | `size` | Short size text, such as `6 inch pot` (optional) |
 | `stock` | Number in stock. Used only for the Limited stock tag. It does not block adding to a wishlist. |
 | `available` | `yes` for current stock, `no` for inactive / previously sold items. `no` shows **Not available** and **Coming Soon**. |
