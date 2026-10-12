@@ -148,9 +148,11 @@
     }
     .intro p { margin: 0.35rem 0 0; color: var(--muted); max-width: 46rem; font-size: 0.95rem; }
     .tools {
-      position: sticky; top: 60px; z-index: 30;
-      background: var(--beige);
+      position: sticky; top: 72px; z-index: 30;
+      background: rgba(243, 247, 242, 0.96);
+      backdrop-filter: blur(12px);
       padding: 0.75rem 0 0.6rem;
+      border-bottom: 1px solid var(--line);
     }
     .search { position: relative; }
     .search svg { position: absolute; left: 0.9rem; top: 50%; width: 18px; height: 18px; transform: translateY(-50%); color: var(--ash-dark); pointer-events: none; }
@@ -615,10 +617,6 @@
       <img class="hero-photo" src="images/indoor_OTH54_snake-plant-tall.jpg" alt="A tall snake plant in a nursery pot">
     </section>
 
-    <section class="wrap" aria-labelledby="cat-title">
-      <div class="section-head"><h2 id="cat-title">Shop by category</h2></div>
-      <div class="visual-cats" id="visual-cats"></div>
-    </section>
     <section class="wrap benefits" aria-label="Why browse with us">
       <article class="benefit"><h3>Healthy plants</h3><p>Indoor, outdoor, fruit, flowering, birds and fish.</p></article>
       <article class="benefit"><h3>Clear availability</h3><p>Order now, limited stock, or coming soon is shown on every card.</p></article>
@@ -638,10 +636,7 @@
       </div>
     </div>
 
-    <section class="wrap">
-      <div class="section-head"><h2>Available now</h2><button type="button" id="show-all">View full catalogue</button></div>
-      <div class="grid" id="featured"></div>
-      <div class="section-head" id="full-catalogue"><h2>Full catalogue</h2></div>
+    <section class="wrap" id="full-catalogue">
       <div class="grid" id="grid" aria-busy="true">
         <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
       </div>
@@ -700,7 +695,7 @@
 
   <nav class="bottom-nav" aria-label="Mobile">
     <a href="#catalog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5z"/></svg>Home</a>
-    <a href="#cat-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>Categories</a>
+    <a href="#chips"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>Categories</a>
     <button type="button" data-open-wishlist><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20s-7-4.4-7-9a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 4.6-7 9-7 9z"/></svg>Wishlist</button>
     <a href="#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.2 2.4c-.7.3-1.2.9-1.2 1.6V14" stroke-linecap="round"/></svg>Contact</a>
   </nav>
@@ -800,7 +795,7 @@
     var products = [];
     var byCode = {};
     var categories = [];
-    var activeCat = '';
+    var activeCats = [];
     var query = '';
     var list = load(KEY_LIST, {});
     var allIn = load(KEY_ALL, {});
@@ -966,20 +961,10 @@
       return 'In wishlist (' + qtyOf(p.code) + ')';
     }
 
-    function renderChips() {
-      var counts = {};
-      products.forEach(function (p) { counts[p.category] = (counts[p.category] || 0) + 1; });
-      var html = '<button type="button" class="chip" data-cat="" aria-pressed="' + (activeCat === '') + '">All<small>' + products.length + '</small></button>';
-      categories.forEach(function (c) {
-        html += '<button type="button" class="chip" data-cat="' + esc(c) + '" aria-pressed="' + (activeCat === c) + '">' + esc(c) + '<small>' + counts[c] + '</small></button>';
-      });
-      $('chips').innerHTML = html;
-    }
-
     function filtered() {
       var q = query.trim().toLowerCase();
       return products.filter(function (p) {
-        if (activeCat && p.category !== activeCat) return false;
+        if (activeCats.length && activeCats.indexOf(p.category) < 0) return false;
         if (!q) return true;
         return (p.name + ' ' + p.category + ' ' + p.note + ' ' + p.code).toLowerCase().indexOf(q) >= 0;
       });
@@ -999,25 +984,22 @@
       '</article>';
     }
 
-    function renderVisualCats() {
+    function renderChips() {
       var counts = {};
       products.forEach(function (p) { counts[p.category] = (counts[p.category] || 0) + 1; });
-      var sample = {};
-      products.forEach(function (p) { if (!sample[p.category] && p.image) sample[p.category] = p; });
-      $('visual-cats').innerHTML = categories.map(function (c) {
-        var p = sample[c];
-        var media = p ? mediaHtml(p) : '<div class="placeholder" aria-hidden="true">' + placeholderFor(c) + '</div>';
-        return '<button type="button" class="visual-cat" data-cat="' + esc(c) + '" aria-pressed="' + (activeCat === c) + '">' + media + '<strong>' + esc(c) + '</strong><small>' + (counts[c] || 0) + ' items</small></button>';
-      }).join('');
+      var html = '<button type="button" class="chip" data-cat="" aria-pressed="' + (activeCats.length === 0) + '">All<small>' + products.length + '</small></button>';
+      categories.forEach(function (c) {
+        if (!counts[c]) return;
+        html += '<button type="button" class="chip" data-cat="' + esc(c) + '" aria-pressed="' + (activeCats.indexOf(c) >= 0) + '">' + esc(c) + '<small>' + counts[c] + '</small></button>';
+      });
+      $('chips').innerHTML = html;
     }
 
     function renderGrid() {
       var items = filtered();
-      var featured = $('featured');
-      var picks = items.filter(function (p) { return p.available !== false && !isOut(p); }).slice(0, 8);
+      var label = activeCats.length ? ' in ' + activeCats.join(', ') : '';
       grid.setAttribute('aria-busy', 'false');
-      $('result-line').textContent = items.length + (items.length === 1 ? ' item' : ' items') + (activeCat ? ' in ' + activeCat : '') + (query.trim() ? ' matching "' + query.trim() + '"' : '');
-      featured.innerHTML = picks.map(cardHtml).join('');
+      $('result-line').textContent = items.length + (items.length === 1 ? ' item' : ' items') + label + (query.trim() ? ' matching "' + query.trim() + '"' : '');
       if (!items.length) {
         grid.innerHTML = '<div class="state" style="grid-column:1/-1"><strong>Nothing found</strong>Try another word or pick All.</div>';
         return;
@@ -1026,13 +1008,9 @@
     }
 
     function refreshCard(code) {
+      var card = grid.querySelector('.card[data-code="' + cssEscape(code) + '"]');
       var p = byCode[code];
-      if (!p) return;
-      [grid, $('featured')].forEach(function (root) {
-        if (!root) return;
-        var card = root.querySelector('.card[data-code="' + cssEscape(code) + '"]');
-        if (card) card.outerHTML = cardHtml(p);
-      });
+      if (card && p) card.outerHTML = cardHtml(p);
     }
     function cssEscape(s) { return window.CSS && CSS.escape ? CSS.escape(s) : String(s).replace(/["\\]/g, '\\$&'); }
 
@@ -1393,31 +1371,14 @@
       else if (e.target.closest('[data-detail]')) openDetail(code);
     }
     grid.addEventListener('click', onCardClick);
-    $('featured').addEventListener('click', onCardClick);
-    $('visual-cats').addEventListener('click', function (e) {
-      var cat = e.target.closest('[data-cat]');
-      if (!cat) return;
-      activeCat = activeCat === cat.dataset.cat ? '' : cat.dataset.cat;
-      renderChips();
-      renderVisualCats();
-      renderGrid();
-      $('full-catalogue').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-    $('show-all').addEventListener('click', function () {
-      activeCat = '';
-      query = '';
-      $('search').value = '';
-      renderChips();
-      renderVisualCats();
-      renderGrid();
-      $('full-catalogue').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
     $('chips').addEventListener('click', function (e) {
       var chip = e.target.closest('.chip');
       if (!chip) return;
-      activeCat = chip.dataset.cat;
+      var cat = chip.dataset.cat;
+      if (!cat) activeCats = [];
+      else if (activeCats.indexOf(cat) >= 0) activeCats = activeCats.filter(function (item) { return item !== cat; });
+      else activeCats.push(cat);
       renderChips();
-      renderVisualCats();
       renderGrid();
     });
     var searchTimer;
@@ -1451,7 +1412,6 @@
         products = buildProducts(parseCsv(text));
         products.forEach(function (p) { byCode[p.code] = p; if (categories.indexOf(p.category) < 0) categories.push(p.category); });
         renderChips();
-        renderVisualCats();
         renderGrid();
         updateCounts();
       })
