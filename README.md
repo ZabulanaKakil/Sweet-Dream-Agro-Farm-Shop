@@ -1,6 +1,6 @@
 # Sweet Dream Agro Farm — Catalog
 
-A one-page catalog for customers. They browse plants, birds and fish, add items to one **Wishlist**, and email it to **tanvir.nahian@dreamersden.org**. Every card shows **Price on request**, plus **Order Now** or **Limited stock**. There is no checkout and no payment on this site.
+A one-page catalog for customers. They browse plants, birds and fish, add items to one **Wishlist**, and email it to **tanvir.nahian@dreamersden.org**. Cards show the CSV price when one is set, otherwise **Price on request**, plus **Order Now**, **Limited stock**, or **Coming Soon**. There is no checkout and no payment on this site. Sending a wishlist is an inquiry, not an order.
 
 **Live site:** https://zabulanakakil.github.io/Sweet-Dream-Agro-Farm-Shop/
 

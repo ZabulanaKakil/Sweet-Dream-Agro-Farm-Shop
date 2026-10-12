@@ -37,6 +37,10 @@
       --ease: 280ms cubic-bezier(0.4, 0, 0.2, 1);
       --focus: 0 0 0 3px rgba(64, 145, 108, 0.35);
       --bar-h: 64px;
+      --forest: #146c43;
+      --forest-dark: #0f4d31;
+      --sage: #f3f7f2;
+      --line: rgba(20, 54, 36, 0.1);
     }
 
     *, *::before, *::after { box-sizing: border-box; }
@@ -45,7 +49,7 @@
       margin: 0;
       font-family: var(--font-sans);
       color: var(--text);
-      background: var(--beige);
+      background: var(--sage);
       line-height: 1.5;
       min-height: 100vh;
     }
@@ -496,12 +500,77 @@
       .icon-btn .label { display: none; }
       .icon-btn { padding: 0 0.7rem; }
     }
+    .utility {
+      background: var(--forest-dark); color: #f4faf6;
+      font-size: 0.78rem; font-weight: 700;
+    }
+    .utility-inner {
+      display: flex; justify-content: center; gap: 0.8rem 1.4rem;
+      min-height: 36px; overflow-x: auto; white-space: nowrap; scrollbar-width: none;
+    }
+    .utility-inner::-webkit-scrollbar { display: none; }
+    .header { background: rgba(255, 255, 255, 0.94); border-bottom-color: var(--line); }
+    .hero {
+      display: grid; gap: 1rem; align-items: center;
+      margin: 1rem 0 0.4rem; padding: 1.1rem;
+      border-radius: 22px; background:
+        radial-gradient(circle at 88% 18%, rgba(20, 108, 67, 0.16), transparent 30%),
+        #fff;
+      border: 1px solid var(--line);
+    }
+    .hero h1 { margin: 0.2rem 0; font-family: var(--font-serif); font-size: clamp(1.8rem, 5vw, 3rem); color: var(--green-dark); line-height: 1.05; }
+    .eyebrow { margin: 0; color: var(--green); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
+    .hero p { margin: 0.4rem 0 0.9rem; color: var(--muted); max-width: 38rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .hero-actions .add { width: auto; min-width: 11rem; text-decoration: none; }
+    .price { font-weight: 800; color: var(--green-dark); font-size: 1.05rem; }
+    .price-row s { margin-left: 0.25rem; color: var(--muted); font-size: 0.82rem; }
+    body.has-bar .bottom-nav { display: none; }
+    .hero-photo { border-radius: 16px; aspect-ratio: 4 / 3; object-fit: cover; width: 100%; background: var(--beige-deep); }
+    .visual-cats, .benefits { display: flex; gap: 0.7rem; overflow-x: auto; padding: 0.8rem 0 0.2rem; scrollbar-width: thin; }
+    .benefits { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: visible; }
+    .visual-cat, .benefit {
+      flex: 0 0 132px; display: flex; flex-direction: column; gap: 0.3rem;
+      padding: 0.55rem; border: 1px solid var(--line); border-radius: 16px; background: #fff; text-align: left;
+    }
+    .benefit { flex: none; padding: 0.9rem; }
+    .benefit h3, .section-head h2 { margin: 0; color: var(--green-dark); }
+    .benefit p, .visual-cat small { margin: 0.25rem 0 0; color: var(--muted); font-size: 0.78rem; }
+    .visual-cat img, .visual-cat .placeholder { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; background: var(--beige-deep); }
+    .visual-cat strong { font-size: 0.82rem; color: var(--wood-dark); }
+    .visual-cat[aria-pressed="true"] { border-color: var(--forest); }
+    .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-top: 1.1rem; }
+    .section-head button { border: 0; background: none; color: var(--green); font-weight: 800; }
+    .bottom-nav {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 34;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      min-height: 62px; padding-bottom: env(safe-area-inset-bottom);
+      background: rgba(255,255,255,0.96); border-top: 1px solid var(--line);
+    }
+    .bottom-nav a, .bottom-nav button {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.1rem;
+      border: 0; background: none; color: var(--muted); font-size: 0.68rem; font-weight: 800;
+    }
+    .bottom-nav svg { width: 18px; height: 18px; }
+    body { padding-bottom: calc(74px + env(safe-area-inset-bottom)); }
+    .detail-care { margin-top: 0.4rem; padding: 0.8rem; border-radius: 14px; background: var(--sage); }
+    .detail-care h3 { margin: 0 0 0.35rem; font-size: 0.92rem; }
+    .detail-care li { margin: 0.2rem 0; font-size: 0.82rem; color: var(--muted); }
+    @media (min-width: 800px) {
+      .hero { grid-template-columns: 1.1fr 0.9fr; padding: 1.5rem; }
+      .benefits { grid-template-columns: repeat(4, 1fr); }
+      .bottom-nav { display: none; }
+      body { padding-bottom: 0; }
+      body.has-bar { padding-bottom: calc(var(--bar-h) + env(safe-area-inset-bottom)); }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition: none !important; animation: none !important; }
     }
   </style>
 </head>
 <body>
+  <div class="utility"><div class="wrap utility-inner"><span>Pickup available</span><span>Healthy plants, grown with care</span><span>Wishlist first, then we confirm</span></div></div>
   <header class="header">
     <div class="wrap header-inner">
       <a class="brand" href="#catalog">
@@ -533,9 +602,28 @@
   </header>
 
   <main>
-    <section class="wrap intro" id="catalog">
-      <h1>Our catalog</h1>
-      <p>Browse what we grow and keep. Add items to your wishlist and email it to us. We will reply with availability. This does not place an order.</p>
+    <section class="wrap hero" id="catalog">
+      <div>
+        <p class="eyebrow">Fresh plants, happy life</p>
+        <h1>Bring nature into your home</h1>
+        <p>Browse the Sweet Dream Agro Farm catalogue. Add a wishlist and email it to us. We reply with availability. This does not place an order.</p>
+        <div class="hero-actions">
+          <a class="add" href="#grid">Browse catalogue</a>
+          <a class="icon-btn" href="#about">How the wishlist works</a>
+        </div>
+      </div>
+      <img class="hero-photo" src="images/indoor_OTH54_snake-plant-tall.jpg" alt="A tall snake plant in a nursery pot">
+    </section>
+
+    <section class="wrap" aria-labelledby="cat-title">
+      <div class="section-head"><h2 id="cat-title">Shop by category</h2></div>
+      <div class="visual-cats" id="visual-cats"></div>
+    </section>
+    <section class="wrap benefits" aria-label="Why browse with us">
+      <article class="benefit"><h3>Healthy plants</h3><p>Indoor, outdoor, fruit, flowering, birds and fish.</p></article>
+      <article class="benefit"><h3>Clear availability</h3><p>Order now, limited stock, or coming soon is shown on every card.</p></article>
+      <article class="benefit"><h3>Pickup or delivery</h3><p>Tell us which you prefer when you send the wishlist.</p></article>
+      <article class="benefit"><h3>Direct reply</h3><p>We answer the email and mobile number you provide.</p></article>
     </section>
 
     <div class="tools">
@@ -551,6 +639,9 @@
     </div>
 
     <section class="wrap">
+      <div class="section-head"><h2>Available now</h2><button type="button" id="show-all">View full catalogue</button></div>
+      <div class="grid" id="featured"></div>
+      <div class="section-head" id="full-catalogue"><h2>Full catalogue</h2></div>
       <div class="grid" id="grid" aria-busy="true">
         <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
       </div>
@@ -607,6 +698,12 @@
     </div>
   </footer>
 
+  <nav class="bottom-nav" aria-label="Mobile">
+    <a href="#catalog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5z"/></svg>Home</a>
+    <a href="#cat-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>Categories</a>
+    <button type="button" data-open-wishlist><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20s-7-4.4-7-9a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 4.6-7 9-7 9z"/></svg>Wishlist</button>
+    <a href="#contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.2 2.4c-.7.3-1.2.9-1.2 1.6V14" stroke-linecap="round"/></svg>Contact</a>
+  </nav>
   <div class="bar" id="bar">
     <button type="button" data-open-wishlist>
       <span id="bar-text">0 items</span>
@@ -791,7 +888,9 @@
           stock: stockRaw === '' ? null : Math.max(0, Math.floor(toNumber(stockRaw))),
           available: availRaw === '' ? true : !/^(no|0|false|inactive)$/.test(availRaw),
           note: get(r, 'note'),
-          image: get(r, 'image')
+          image: get(r, 'image'),
+          price: toNumber(get(r, 'price')),
+          sale: toNumber(get(r, 'sale'))
         });
       });
       return out;
@@ -841,6 +940,26 @@
     }
     function qtyOf(code) { return list[code] > 0 ? list[code] : 0; }
     function wantsAll(code) { return !!allIn[code]; }
+    function priceInfo(p) {
+      var list = p.price > 0 ? p.price : 0;
+      var sale = p.sale > 0 && list > 0 && p.sale < list ? p.sale : 0;
+      return { list: list, current: sale || list, onSale: sale > 0, percent: sale ? Math.round((1 - sale / list) * 100) : 0 };
+    }
+    function money(n) { return '\u09F3' + Math.round(n).toLocaleString('en-US'); }
+    function priceHtml(p) {
+      var info = priceInfo(p);
+      if (!info.current) return '<span class="price ask">Price on request</span>';
+      if (!info.onSale) return '<span class="price">' + money(info.current) + '</span>';
+      return '<span class="price">' + money(info.current) + '</span> <s>' + money(info.list) + '</s> <span class="badge badge-low">-' + info.percent + '%</span>';
+    }
+    function careTips(category) {
+      var c = category.toLowerCase();
+      if (c.indexOf('bird') >= 0) return ['Fresh water every day', 'Feed suited to the species', 'A calm, secure enclosure'];
+      if (c.indexOf('fish') >= 0) return ['Clean, oxygenated water', 'Avoid overcrowding', 'Ask us whether it suits a pond or tank'];
+      if (c.indexOf('indoor') >= 0) return ['Water when the top of the soil dries', 'Bright, indirect light is usually safest', 'Keep it away from cold drafts'];
+      if (c.indexOf('flower') >= 0) return ['Give it bright outdoor light', 'Keep the soil evenly moist while budding', 'Feed during the growing season'];
+      return ['Plant in free-draining soil', 'Water deeply while it is establishing', 'Ask us for care that matches your space'];
+    }
     function addLabel(p) {
       if (!qtyOf(p.code)) return 'Add to my wish list';
       if (wantsAll(p.code)) return 'In wishlist (all in stock)';
@@ -873,17 +992,32 @@
         '<div class="card-body">' +
           '<h3 class="card-title"><button type="button" data-detail>' + esc(p.name) + '</button></h3>' +
           '<span class="card-cat">' + esc(p.category) + '</span>' +
-          '<div class="price-row"><span class="price ask">Price on request</span></div>' +
+          '<div class="price-row">' + priceHtml(p) + '</div>' +
           '<div class="meta"><span>' + esc(p.size) + '</span>' + stockHtml(p) + '</div>' +
           '<button type="button" class="add" data-add' + (inList ? ' data-in' : '') + '>' + addLabel(p) + '</button>' +
         '</div>' +
       '</article>';
     }
 
+    function renderVisualCats() {
+      var counts = {};
+      products.forEach(function (p) { counts[p.category] = (counts[p.category] || 0) + 1; });
+      var sample = {};
+      products.forEach(function (p) { if (!sample[p.category] && p.image) sample[p.category] = p; });
+      $('visual-cats').innerHTML = categories.map(function (c) {
+        var p = sample[c];
+        var media = p ? mediaHtml(p) : '<div class="placeholder" aria-hidden="true">' + placeholderFor(c) + '</div>';
+        return '<button type="button" class="visual-cat" data-cat="' + esc(c) + '" aria-pressed="' + (activeCat === c) + '">' + media + '<strong>' + esc(c) + '</strong><small>' + (counts[c] || 0) + ' items</small></button>';
+      }).join('');
+    }
+
     function renderGrid() {
       var items = filtered();
+      var featured = $('featured');
+      var picks = items.filter(function (p) { return p.available !== false && !isOut(p); }).slice(0, 8);
       grid.setAttribute('aria-busy', 'false');
       $('result-line').textContent = items.length + (items.length === 1 ? ' item' : ' items') + (activeCat ? ' in ' + activeCat : '') + (query.trim() ? ' matching "' + query.trim() + '"' : '');
+      featured.innerHTML = picks.map(cardHtml).join('');
       if (!items.length) {
         grid.innerHTML = '<div class="state" style="grid-column:1/-1"><strong>Nothing found</strong>Try another word or pick All.</div>';
         return;
@@ -892,9 +1026,13 @@
     }
 
     function refreshCard(code) {
-      var card = grid.querySelector('.card[data-code="' + cssEscape(code) + '"]');
       var p = byCode[code];
-      if (card && p) card.outerHTML = cardHtml(p);
+      if (!p) return;
+      [grid, $('featured')].forEach(function (root) {
+        if (!root) return;
+        var card = root.querySelector('.card[data-code="' + cssEscape(code) + '"]');
+        if (card) card.outerHTML = cardHtml(p);
+      });
     }
     function cssEscape(s) { return window.CSS && CSS.escape ? CSS.escape(s) : String(s).replace(/["\\]/g, '\\$&'); }
 
@@ -961,7 +1099,8 @@
       if (!p) return;
       detail.dataset.code = code;
       var out = isOut(p);
-      var facts = [p.category, 'Price on request'];
+      var info = priceInfo(p);
+      var facts = [p.category, info.current ? money(info.current) : 'Price on request'];
       if (p.size) facts.push(p.size);
       if (isUnavailable(p)) {
         facts.push('Not available');
@@ -977,9 +1116,10 @@
             '<button type="button" class="close" data-close-detail aria-label="Close">&times;</button></div>' +
           '<div class="detail-body">' +
             '<h2 id="detail-title">' + esc(p.name) + '</h2>' +
-            '<div class="price-row"><span class="price ask">Price on request</span></div>' +
+            '<div class="price-row">' + priceHtml(p) + '</div>' +
             '<ul class="facts">' + facts.map(function (f) { return '<li>' + esc(f) + '</li>'; }).join('') + '</ul>' +
             (p.note ? '<p class="note">' + esc(p.note) + '</p>' : '') +
+            '<div class="detail-care"><h3>General care notes</h3><ul>' + careTips(p.category).map(function (tip) { return '<li>' + esc(tip) + '</li>'; }).join('') + '</ul></div>' +
             '<div class="detail-actions">' +
               '<button type="button" class="add" data-detail-add' + (qtyOf(code) > 0 ? ' data-in' : '') + '>' +
                 (qtyOf(code) > 0 ? (wantsAll(code) ? 'Add one more (all in stock)' : 'Add one more (' + qtyOf(code) + ' in wishlist)') : 'Add to my wish list') + '</button>' +
@@ -1039,7 +1179,7 @@
         var allOn = wantsAll(c);
         html += '<li class="row" data-code="' + esc(c) + '">' + rowMedia(p) +
           '<div><p class="row-name">' + esc(p.name) + '</p>' + wishBadges(p) +
-          '<span class="row-price">' + (allOn ? 'All items in stock' : 'Price on request') + '</span>' +
+          '<span class="row-price">' + (allOn ? 'All items in stock' : (priceInfo(p).current ? money(priceInfo(p).current) + ' each, confirmed by email' : 'Price on request')) + '</span>' +
           '<div class="row-actions"><div class="stepper' + (allOn ? ' is-muted' : '') + '">' +
             '<button type="button" data-step="-1" aria-label="One less ' + esc(p.name) + '">&minus;</button>' +
             '<input type="number" min="1" value="' + qtyOf(c) + '" data-qty inputmode="numeric" aria-label="Quantity for ' + esc(p.name) + '"' + (allOn ? ' disabled' : '') + '>' +
@@ -1168,7 +1308,8 @@
       var lines = [];
       Object.keys(list).filter(function (c) { return byCode[c]; }).forEach(function (c) {
         var p = byCode[c];
-        var extra = isUnavailable(p) ? ' \u2014 not available / coming soon' : ' \u2014 price on request';
+        var priced = priceInfo(p);
+        var extra = isUnavailable(p) ? ' \u2014 not available / coming soon' : (priced.current ? ' \u2014 ' + money(priced.current) + ' (confirm by email)' : ' \u2014 price on request');
         if (wantsAll(c)) lines.push('- ' + p.name + ' (' + c + ') \u2014 all items in stock' + extra);
         else lines.push('- ' + p.name + ' (' + c + ') \u00D7 ' + qtyOf(c) + extra);
       });
@@ -1244,18 +1385,39 @@
       msg.innerHTML = '<p class="alert ok">Your email app should open with the wishlist. Press Send there to reach us. If nothing opened, email ' + esc(SHOP_EMAIL) + '.</p>';
     });
 
-    grid.addEventListener('click', function (e) {
+    function onCardClick(e) {
       var card = e.target.closest('.card');
       if (!card) return;
       var code = card.dataset.code;
       if (e.target.closest('[data-add]')) addToList(code);
       else if (e.target.closest('[data-detail]')) openDetail(code);
+    }
+    grid.addEventListener('click', onCardClick);
+    $('featured').addEventListener('click', onCardClick);
+    $('visual-cats').addEventListener('click', function (e) {
+      var cat = e.target.closest('[data-cat]');
+      if (!cat) return;
+      activeCat = activeCat === cat.dataset.cat ? '' : cat.dataset.cat;
+      renderChips();
+      renderVisualCats();
+      renderGrid();
+      $('full-catalogue').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    $('show-all').addEventListener('click', function () {
+      activeCat = '';
+      query = '';
+      $('search').value = '';
+      renderChips();
+      renderVisualCats();
+      renderGrid();
+      $('full-catalogue').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
     $('chips').addEventListener('click', function (e) {
       var chip = e.target.closest('.chip');
       if (!chip) return;
       activeCat = chip.dataset.cat;
       renderChips();
+      renderVisualCats();
       renderGrid();
     });
     var searchTimer;
@@ -1289,6 +1451,7 @@
         products = buildProducts(parseCsv(text));
         products.forEach(function (p) { byCode[p.code] = p; if (categories.indexOf(p.category) < 0) categories.push(p.category); });
         renderChips();
+        renderVisualCats();
         renderGrid();
         updateCounts();
       })
